@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEX Dokumenty v4.0 – Home Experts</title>
+
+<!-- PDF libs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<!-- Core styles -->
+<link rel="stylesheet" href="css/core.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     SPINNER
+     ════════════════════════════════════════════════ -->
+<div id="spinner">
+  <div class="spin-ring"></div>
+  <p>Generuję PDF…</p>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     TOAST
+     ════════════════════════════════════════════════ -->
+<div class="hex-toast" id="hex-toast"></div>
+
+<!-- ════════════════════════════════════════════════
+     GŁÓWNY HEADER
+     ════════════════════════════════════════════════ -->
+<div class="hex-header">
+  <div class="hex-header-top">
+    <!-- Logo ładowane przez js/logo.js lub inline base64 -->
+    <img id="hex-logo" class="hex-logo" src="" alt="Home Experts" onerror="this.style.display='none'">
+    <div class="hex-header-actions">
+      <!-- Przyszłe akcje: user avatar, powiadomienia -->
+    </div>
+  </div>
+
+  <!-- ZAKŁADKI -->
+  <div class="hex-tabs">
+    <button class="hex-tab" data-tab="sprzedaz">
+      🏠 Sprzedaż
+    </button>
+    <button class="hex-tab" data-tab="kupno">
+      🔑 Kupno
+    </button>
+    <button class="hex-tab" data-tab="najem">
+      📋 Najem
+      <span class="hex-tab-badge">2</span>
+    </button>
+    <button class="hex-tab" data-tab="ankieta">
+      📝 Ankieta
+    </button>
+    <button class="hex-tab" data-tab="aneksy">
+      📎 Aneksy
+    </button>
+    <button class="hex-tab" data-tab="inne">
+      ⚡ Inne
+    </button>
+    <!-- Przyszłe moduły — placeholder -->
+    <button class="hex-tab hex-tab-placeholder" data-tab="crm" title="Wkrótce">
+      🔗 CRM Esti
+    </button>
+    <button class="hex-tab hex-tab-placeholder" data-tab="autenti" title="Wkrótce">
+      ✍️ Autenti
+    </button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     PANELE MODUŁÓW
+     Każdy moduł dostarcza swój panel przez osobny plik HTML
+     wstrzykiwany tutaj lub jako self-contained section
+     ════════════════════════════════════════════════ -->
+
+<!-- SPRZEDAŻ -->
+<div class="hex-panel" id="tab-sprzedaz">
+  <!-- Zawartość ładowana przez js/sprzedaz.js -->
+  <div id="sprzedaz-root"></div>
+</div>
+
+<!-- KUPNO -->
+<div class="hex-panel" id="tab-kupno">
+  <div id="kupno-root"></div>
+</div>
+
+<!-- NAJEM -->
+<div class="hex-panel" id="tab-najem">
+  <div id="najem-root"></div>
+</div>
+
+<!-- ANKIETA -->
+<div class="hex-panel" id="tab-ankieta">
+  <div id="ankieta-root"></div>
+</div>
+
+<!-- ANEKSY + PROTOKÓŁ -->
+<div class="hex-panel" id="tab-aneksy">
+  <div id="aneksy-root"></div>
+</div>
+
+<!-- INNE -->
+<div class="hex-panel" id="tab-inne">
+  <div id="inne-root"></div>
+</div>
+
+<!-- PLACEHOLDERY (przyszłe moduły) -->
+<div class="hex-panel" id="tab-crm">
+  <div style="padding:60px 24px;text-align:center;color:var(--gray);">
+    <div style="font-size:48px;margin-bottom:16px;">🔗</div>
+    <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:8px;">Integracja CRM Esti</div>
+    <div style="font-size:14px;">Wkrótce dostępne</div>
+  </div>
+</div>
+
+<div class="hex-panel" id="tab-autenti">
+  <div style="padding:60px 24px;text-align:center;color:var(--gray);">
+    <div style="font-size:48px;margin-bottom:16px;">✍️</div>
+    <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:8px;">Podpis elektroniczny Autenti</div>
+    <div style="font-size:14px;">Wkrótce dostępne</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     SKRYPTY — kolejność ważna
+     1. texts.js    — dane (bez zależności)
+     2. logo.js     — base64 logo (bez zależności)
+     3. core.js     — router + utils
+     4. moduły      — korzystają z HEX.*
+     ════════════════════════════════════════════════ -->
+<script src="js/texts.js"></script>
+<script src="js/logo.js"></script>
+<script src="js/core.js"></script>
+
+<!-- Moduły — każdy rejestruje się przez HEX.registerModule() -->
+<script src="js/sprzedaz.js"></script>
+<script src="js/kupno.js"></script>
+<script src="js/najem.js"></script>
+<script src="js/ankieta.js"></script>
+<script src="js/ax.js"></script>
+<script src="js/rez.js"></script>
+<script src="js/inne.js"></script>
+
+</body>
+</html>

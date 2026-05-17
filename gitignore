@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Locals
+*.local
+.env
+
+# Logs
+*.log
+
+# Node (na wypadek przyszłych narzędzi)
+node_modules/
