@@ -31,20 +31,29 @@ const HEX = (() => {
   }
 
   // ── Firma ──
+  // Model pełny: pola bazowe + pochodne liczone w buildFirmaPochodne().
+  //  - wlasciciel = imię i nazwisko reprezentanta (do treści umowy)
+  //  - agent      = KOD agenta do numeracji (np. 'MAZI'), NIE imię
+  //  - skrot/rok  = składowe numeru umowy  nr/skrot/agent/rok
   const FIRMA_DOMYSLNE = {
-    nazwa:      'Home Experts',
-    pelna:      'Home Experts sp. z o.o.',
-    nip:        '5833188393',
-    regon:      'KRS 0000671880',
-    ulica:      'Grunwaldzka 82',
-    kod:        '80-244',
-    miasto:     'Gdańsk',
-    agent:      'Mariusz Zimnowodzki',
-    stanowisko: 'agent nieruchomości',
-    licencja:   '26340',
-    tel:        '+48 609 810 900',
-    email:      'mariusz@zimnowodzki.pl',
-    stopka:     'Zimnowodzki Nieruchomości | Home Experts',
+    nazwa:       'Home Experts',
+    pelna:       'Home Experts sp. z o.o.',
+    nip:         '5833188393',
+    regon:       'KRS 0000671880',
+    ulica:       'Grunwaldzka 82',
+    kod:         '80-244',
+    miasto:      'Gdańsk',
+    wlasciciel:  'Mariusz Zimnowodzki',
+    stanowisko:  'agent nieruchomości',
+    licencja:    '26340',
+    tel:         '+48 609 810 900',
+    email:       'mariusz@zimnowodzki.pl',
+    agent_email: '',
+    agent_tel:   '',
+    skrot:       'HEX',
+    agent:       '',
+    rok:         String(new Date().getFullYear()),
+    stopka:      'Zimnowodzki Nieruchomości | Home Experts',
   };
 
   function loadFirmaData() {
@@ -58,11 +67,21 @@ const HEX = (() => {
     try { localStorage.setItem('hex_firma', JSON.stringify(data)); } catch {}
   }
 
+  // Mutuje F i ZWRACA F (najem.js/sprzedaz.js robią: const FIRMA = buildFirmaPochodne(loadFirmaData()))
   function buildFirmaPochodne(F) {
-    F.pelna    = F.pelna    || F.nazwa;
-    F.regon    = F.regon    || '';
-    F.stopka   = F.stopka   || F.nazwa;
-    F.wlasciciel = F.agent  || '';
+    F.pelna      = F.pelna      || F.nazwa;
+    F.regon      = F.regon      || '';
+    F.stopka     = F.stopka     || F.nazwa;
+    F.wlasciciel = F.wlasciciel || F.agent || '';
+    F.skrot      = F.skrot      || 'HEX';
+    F.rok        = F.rok        || String(new Date().getFullYear());
+    // ── Pola pochodne (wykorzystywane przez sprzedaz.js) ──
+    F.adres  = F.ulica + ', ' + F.kod + ' ' + F.miasto;
+    F.krótka = F.nazwa + ', ' + F.ulica + ', ' + F.kod + ' ' + F.miasto;
+    const _siedziba = F.nazwa + ' z siedzibą w ' + F.miasto + ' (' + F.kod + ') ' + F.ulica;
+    F.ceidg  = _siedziba + ', działającą na podstawie wpisu do Centralnej Ewidencji Działalności Gospodarczej NIP: '
+             + F.nip + ', REGON ' + F.regon + '. Reprezentowaną przez ' + F.wlasciciel + ' — ' + F.stanowisko + ',';
+    return F;
   }
 
   // ── Spinner ──

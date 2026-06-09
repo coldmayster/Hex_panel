@@ -2,54 +2,66 @@
 > Aktualizuj ten plik na początku i końcu każdej sesji roboczej.
 
 ## 📍 Aktualna sesja
-- **Data:** 2026-05-17
-- **Etap:** Sesja 1 — rdzeń i architektura ✅ ZAKOŃCZONA
-- **Następny krok:** Sesja 2 — refaktor `ax.js` do nowej architektury
+- **Data:** 2026-06-09
+- **Etap:** Sesja 5 — sprzedaz.js ✅ ZAKOŃCZONA
+- **Następny krok:** Sesja 6 — kupno.js + ankieta.js
 
 ---
 
 ## ✅ Co zostało zrobione (v4.0)
 
 ### Sesja 1 — Rdzeń i architektura
-- [x] Zaprojektowana nowa architektura modułowa
 - [x] `index.html` — czysty shell z zakładkami, spinner, toast, kolejność skryptów
-- [x] `css/core.css` — pełny design system wyciągnięty z index.html (~400 linii)
-- [x] `js/core.js` — router (`HEX.switchTab`), firma, spinner, toast, getText, podpisy, daty
-- [x] `js/logo.js` — placeholder na base64 logo (do uzupełnienia z sprzedaz.js)
-- [x] `README.md` — opis architektury i roadmap
-- [x] `.gitignore`
+- [x] `css/core.css` — pełny design system (~400 linii)
+- [x] `js/core.js` — router `HEX.*`, firma, spinner, toast, getText, podpisy, daty
+- [x] `js/logo.js` — placeholder na base64 logo
+- [x] `README.md`, `.gitignore`, `STAN.md`, `CHANGELOG.md`
+
+### Sesja 2 — ax.js + texts.js
+- [x] `js/ax.js` — refaktor do architektury v4
+- [x] `js/texts.js` — usunięto 296 linii kluczy `ua:` i `by:` (1492 → 1196 linii)
+
+### Sesja 3 — rez.js
+- [x] `js/rez.js` — refaktor do architektury v4
+
+### Sesja 4 — najem.js ✅ ZAKOŃCZONA
+- [x] `js/najem.js` — scalenie `generator-najem/logic.js` + `generator-najem/pdf.js` → jeden plik
+- [x] Architektura v4: `const NAJEM = (() => { ... })()`
+- [x] Rejestracja: `HEX.registerModule('najem', { onActivate: init })`
+- [x] HTML modułu wstrzykiwany przez `render()` do `#najem-root`
+- [x] Wszystkie helpery → `HEX.*`
+- [x] Public API: `NAJEM.*` wywoływane z onclick w HTML
+- [x] Logika polisy OC (domyślna załadowana, przycisk usuń, walidacja PNG/JPG)
+- [x] `index.html` — potwierdzono że `najem-root` i script tag już były (brak zmian)
+
+### Poza sesjami — Claude Code
+- [x] `js/sprzedaz.js` — refaktor tekstów: przeniesiono ~411 linii inline PL do `texts.js`
+  - Usunięto obiekt `const T` i `const TR`
+  - Wprowadzono helpery `g()` i `gpl()` delegujące do `getText()`
+  - Plik skrócony z 2048 do ~1630 linii
+  - Zero polskich inline-stringów prawnych w logice PDF
 
 ---
 
 ## 🔄 Do zrobienia (kolejne sesje)
 
-### Sesja 2 — ax.js
-- [ ] Refaktor `ax.js` do nowej architektury (`HEX.*`, rejestracja modułu)
-- [ ] Usunięcie `ua` i `by` z kluczy w `ax.*` w `texts.js`
-- [ ] Test lokalny
-
-### Sesja 3 — rez.js
-- [ ] Refaktor `rez.js` (umowa rezerwacyjna)
-- [ ] Przeniesienie `slownie()` do `core.js` jako `HEX.slownie()`
-
-### Sesja 4 — najem.js
-- [ ] Refaktor modułu najmu (wynajmujący + najemca)
-
-### Sesja 5 — sprzedaz.js
-- [ ] Refaktor największego modułu
-- [ ] Przeniesienie `LOGO_PDF_B64` do `logo.js`
-
 ### Sesja 6 — kupno.js + ankieta.js
-- [ ] Refaktor kupno i ankieta
+- [ ] Refaktor lub implementacja od zera w architekturze v4
+- [ ] Rozważyć Claude Design → Claude Code workflow dla UI
 
 ### Sesja 7 — inne.js
-- [ ] Refaktor generatora promptów AI
+
+### Sesja 8 — PWA
+- [ ] `manifest.json` (nazwa, ikony, kolory navy/gold)
+- [ ] Service Worker (cache, offline)
+- [ ] Meta tagi w `index.html`
+- [ ] Ikony PNG (logo Home Experts) — potrzebne przed implementacją
 
 ### Przyszłe moduły
 - [ ] `modules/auth/` — konta użytkowników
 - [ ] `modules/crm-esti/` — integracja CRM Esti
-- [ ] `modules/autenti/` — e-podpis Autenti
-- [ ] `modules/mailer/` — wysyłka email (mailto + załącznik PDF)
+- [ ] `modules/autenti/` — e-podpis Autenti (SIGNIUS Biznes PRO)
+- [ ] `modules/mailer/` — wysyłka email
 
 ---
 
@@ -57,21 +69,21 @@
 
 ```
 Hex_panel/
-├── index.html          ← shell
+├── index.html                ✅ (bez zmian)
 ├── css/
-│   └── core.css        ← design system
+│   └── core.css              ✅
 ├── js/
-│   ├── core.js         ← router HEX.*, firma, utils
-│   ├── texts.js        ← teksty prawne pl/en (kopiowany bez zmian)
-│   ├── logo.js         ← base64 logo
-│   ├── sprzedaz.js     ← moduł sprzedaży
-│   ├── kupno.js        ← moduł kupna
-│   ├── najem.js        ← moduł najmu
-│   ├── ankieta.js      ← ankieta klienta
-│   ├── ax.js           ← aneksy + protokół
-│   ├── rez.js          ← umowa rezerwacyjna
-│   └── inne.js         ← generator promptów AI
-└── modules/            ← przyszłe moduły
+│   ├── core.js               ✅
+│   ├── texts.js              ✅ (pl/en, bez ua/by)
+│   ├── logo.js               ✅ (placeholder)
+│   ├── ax.js                 ✅
+│   ├── rez.js                ✅
+│   ├── najem.js              ✅ sesja 4
+│   ├── sprzedaz.js           ✅ sesja 5 (architektura v4, panel firmy+profile, PL+EN)
+│   ├── kupno.js              ⏳ sesja 6
+│   ├── ankieta.js            ⏳ sesja 6
+│   └── inne.js               ⏳ sesja 7
+└── modules/
     ├── auth/
     ├── crm-esti/
     ├── autenti/
@@ -79,33 +91,34 @@ Hex_panel/
 ```
 
 ## 🎨 Design system
-- Navy: `#1a2b5e`
-- Gold: `#b8922a`
-- Cream: `#f8f6f1`
+- Navy: `#1a2b5e` · Gold: `#b8922a` · Cream: `#f8f6f1`
 - Fonty: Playfair Display (nagłówki), DM Sans (treść)
 
 ## 🌐 Języki
-- Polski (`pl`) ✅
-- Angielski (`en`) ✅
-- Ukraiński (`ua`) ❌ usunięty
-- Białoruski (`by`) ❌ usunięty
+- Polski (`pl`) ✅ · Angielski (`en`) ✅
+- Ukraiński (`ua`) ❌ usunięty · Białoruski (`by`) ❌ usunięty
 
 ## 🔧 Zasady architektury
-- Każdy moduł izolowany — nie zna innych modułów
-- `core.js` — jedyne miejsce routera i danych firmy
-- Rejestracja modułu: `HEX.registerModule('id', { onActivate })`
-- Globalne aliasy zachowane dla kompatybilności: `loadFirmaData`, `buildFirmaPochodne`, `getText`, `FIRMA`
+- Każdy moduł: `const MODUL = (() => { ... })()`
+- Rejestracja: `HEX.registerModule('id', { onActivate })`
+- HTML wstrzykiwany przez `MODUL.render()` do `#id-root`
 - Kolejność skryptów: `texts.js` → `logo.js` → `core.js` → moduły
 
-## 📦 Repo
-- **Nowe repo (v4):** https://github.com/coldmayster/Hex_panel
-- **Stare repo (v3, backup):** https://github.com/coldmayster/hex-dokumenty
-- **Live (stara wersja):** https://hexdokumenty.netlify.app
+## 🔧 Zalecany workflow
+- **Claude Design** — prototypy UI nowych modułów
+- **Claude Code** — implementacja kodu, refaktory dużych plików
+- **Chat Claude** — planowanie, architektura, STAN.md
 
----
+## 📦 Repo
+- **v4:** https://github.com/coldmayster/Hex_panel
+- **v3 (backup):** https://github.com/coldmayster/hex-dokumenty
+- **Live (v3):** https://hexdokumenty.netlify.app
 
 ## ⚠️ Ważne uwagi
-- `LOGO_PDF_B64` — przenieść ze `sprzedaz.js` do `logo.js` przy refaktorze sprzedaz.js
-- `slownie()` — przenieść do `core.js` jako `HEX.slownie()` przy refaktorze rez.js
-- `texts.js` — kopiować bez zmian z hex-dokumenty, usuwać tylko klucze `ua`/`by`
-- Przy każdej sesji: wgraj `STAN.md` + `CHANGELOG.md` na start żeby Claude miał kontekst
+- `LOGO_PDF_B64` + `DEFAULT_POLISA_B64` — ✅ przeniesione do `logo.js` (globalne, współdzielone przez sprzedaz+najem)
+- `core.js` — rozszerzony model firmy: pola bazowe `skrot/agent(kod)/rok/agent_email/agent_tel/wlasciciel`; pochodne `adres/krótka/ceidg` liczone w `buildFirmaPochodne` (teraz ZWRACA F). Addytywne — najem/rez/ax bez zmian. UWAGA: tekst `ceidg` mówi „CEIDG" — zweryfikować dla sp. z o.o. (KRS)
+- `sprzedaz.js` — panel ustawień firmy + profile zachowane (localStorage `hex_firma_profiles`); podpisy przez `HEX.initSig/clearSig/getSig`; języki PL+EN (layout dwukolumnowy tylko dla EN); `prefillAnkietaFromGenerator` to stub do czasu sesji 6
+- `slownie()` — pozostaje w `rez.js` (nie globalizujemy)
+- Polisa OC — zaimplementowana w `najem.js` ✅
+- PWA — wymaga ikon PNG przed implementacją
+- **Na start każdej sesji:** wgraj `STAN.md` + `CHANGELOG.md`

@@ -9,44 +9,106 @@ Format: `[DATA] Sesja N — opis`
 ### Dodano
 - `index.html` — shell aplikacji: header, zakładki (Sprzedaż, Kupno, Najem, Ankieta, Aneksy, Inne), placeholdery dla CRM Esti i Autenti, spinner, toast, kolejność ładowania skryptów
 - `css/core.css` — kompletny design system: zmienne CSS, header, zakładki, karty, formularze, przyciski, podpisy, spinner, toast, ankieta, responsive
-- `js/core.js` — rdzeń aplikacji:
-  - `HEX.registerModule(id, { onActivate })` — rejestracja modułów
-  - `HEX.switchTab(id)` — router zakładek
-  - `HEX.loadFirmaData()` / `HEX.saveFirmaData()` — dane biura z localStorage
-  - `HEX.buildFirmaPochodne(F)` — pomocnicze pola firmy
-  - `HEX.showSpinner()` / `HEX.hideSpinner()` — spinner PDF
-  - `HEX.toast(msg)` — powiadomienia
-  - `HEX.getText(key, data, lang)` — delegat do texts.js
-  - `HEX.initSig(id)` / `HEX.clearSig(id)` / `HEX.getSig(id)` — podpisy canvas
-  - `HEX.fmtDate(iso)` / `HEX.fmtDateL(iso)` — formatowanie dat
-  - Globalne aliasy dla kompatybilności: `loadFirmaData`, `buildFirmaPochodne`, `getText`, `FIRMA`
-- `js/logo.js` — placeholder na `LOGO_PDF_B64` (do uzupełnienia)
-- `README.md` — opis projektu, architektura, roadmap
-- `.gitignore`
-- `STAN.md` — aktualny stan projektu
-- `CHANGELOG.md` — ten plik
+- `js/core.js` — rdzeń aplikacji: `HEX.registerModule`, `HEX.switchTab`, `HEX.loadFirmaData`, `HEX.saveFirmaData`, `HEX.buildFirmaPochodne`, `HEX.showSpinner`, `HEX.hideSpinner`, `HEX.toast`, `HEX.getText`, `HEX.initSig`, `HEX.clearSig`, `HEX.getSig`, `HEX.fmtDate`, `HEX.fmtDateL`. Globalne aliasy dla kompatybilności.
+- `js/logo.js` — placeholder na `LOGO_PDF_B64`
+- `README.md`, `.gitignore`, `STAN.md`, `CHANGELOG.md`
 
-### Decyzje architektoniczne
+### Decyzje
 - Języki: tylko `pl` i `en` — usunięto `ua` i `by`
 - Moduły izolowane — komunikacja tylko przez `HEX.*`
-- `LOGO_PDF_B64` przeniesiony do `logo.js` (przy refaktorze sprzedaz.js)
-- `slownie()` zostanie przeniesiona do `core.js` jako `HEX.slownie()` (przy refaktorze rez.js)
-
-### Repo
-- Nowe repo: https://github.com/coldmayster/Hex_panel
-- Stare repo (backup): https://github.com/coldmayster/hex-dokumenty
+- Repo: https://github.com/coldmayster/Hex_panel
 
 ---
 
-## [NASTĘPNA SESJA] Sesja 2 — ax.js
+## [2026-05-17] Sesja 2 — ax.js + texts.js
 
-### Do zrobienia
-- Refaktor `ax.js` do nowej architektury
-- Rejestracja: `HEX.registerModule('aneksy', { onActivate: axInit })`
-- Zamiana globalnych `loadFirmaData()` → `HEX.loadFirmaData()`
-- Zamiana globalnych `getText()` → `HEX.getText()`
-- Usunięcie kluczy `ua`/`by` z `texts.js` dla sekcji `ax.*` i `pr.*`
-- Test lokalny w przeglądarce
+### Zmieniono
+- `js/ax.js` — pełny refaktor do architektury v4
+- `js/texts.js` — usunięto wszystkie klucze `ua:` i `by:` (1492 → 1196 linii)
+
+---
+
+## [2026-05-17] Sesja 3 — rez.js
+
+### Zmieniono
+- `js/rez.js` — pełny refaktor do architektury v4
+  - Namespace `const REZ = (() => { ... })()`
+  - `slownie()` pozostała w module (używana tylko tu)
+
+### Decyzje
+- `slownie()` NIE przeniesiona do `core.js`
+
+---
+
+## [2026-06-09] Poza sesjami — sprzedaz.js refaktor tekstów (Claude Code)
+
+### Zmieniono
+- `js/sprzedaz.js` — przeniesiono wszystkie polskie teksty prawne do `texts.js`
+  - Usunięto obiekt `const T` (~411 linii) i `const TR`
+  - Wprowadzono lokalne helpery `g()` i `gpl()` delegujące do `HEX.getText()`
+  - Dodano 130+ kluczy `sprzedaz.*` w `texts.js` (§1–§12, załączniki, PEP, RODO)
+  - Plik skrócony z 2048 do ~1630 linii
+
+### Decyzje
+- Do `texts.js` trafia każdy tekst widoczny w PDF; dane konfiguracyjne FIRMA i komunikaty UI pozostają inline
+- Wzorzec dwujęzyczny: `gpl('klucz')` dla PL, `isBilingual ? g('klucz') : null` dla tłumaczenia
+- Parametryzacja kluczy: statyczne jako plain string, dynamiczne jako arrow function z named destructuring
+
+---
+
+## [2026-06-09] Sesja 4 — najem.js
+
+### Dodano
+- `js/najem.js` — scalenie `generator-najem/logic.js` + `generator-najem/pdf.js` → jeden plik w architekturze v4:
+  - Namespace `const NAJEM = (() => { ... })()`
+  - Rejestracja: `HEX.registerModule('najem', { onActivate: init })`
+  - HTML modułu wstrzykiwany przez `render()` do `#najem-root`
+  - Stan modułu jako zmienne lokalne: `selectedType`, `currentPage`, `prowizjaTyp`, `s5Wariant`, `ocImageData`
+  - Wszystkie helpery → `HEX.*`
+  - Public API: `NAJEM.selectType`, `goNext`, `goBack`, `setKlientTyp`, `togglePelnom`, `setProwizjaTyp`, `selectS5`, `updateBadge`, `clearSig`, `deletePolisa`, `handleOCFile`, `generatePDF`, `reset`
+  - Obsługa dwóch typów umowy: najemca / wynajmujący
+  - Logika polisy OC: domyślna z `DEFAULT_POLISA_B64`, upload PNG/JPG, przycisk usuń
+  - 6-krokowy formularz ze stepperem
+  - Generowanie PDF przez pdfMake (nagłówek z logo, paragrafy, załączniki, podpisy canvas)
+
+### Sprawdzono
+- `index.html` — `<div id="najem-root"></div>` i `<script src="js/najem.js"></script>` już były obecne, brak zmian
+
+### Decyzje
+- `getSigCanvas(id)` pobiera canvas z DOM na żądanie (zamiast globalnych zmiennych canvas)
+- `startAddRecent` zachowane z guard `typeof === 'function'` (opcjonalna zależność)
+
+---
+
+## [2026-06-09] Sesja 5 — sprzedaz.js (Claude Code)
+
+### Dodano
+- `js/sprzedaz.js` — pełny refaktor do architektury v4 (z `Downloads/github/sprzedaz.js`):
+  - Namespace `const SPRZEDAZ = (() => { ... })()`
+  - Rejestracja: `HEX.registerModule('sprzedaz', { onActivate: init })`
+  - HTML wstrzykiwany przez `render()` do `#sprzedaz-root` (zachowane klasy github — wszystkie 44 są już w `core.css`)
+  - Stan modułu jako zmienne lokalne w IIFE
+  - Public API: `SPRZEDAZ.*` (23 funkcje wołane z onclick)
+  - Helpery → `HEX.*`: `showSpinner/hideSpinner`, `toast`, `getText`, `initSig/clearSig/getSig`, `loadFirmaData/saveFirmaData/buildFirmaPochodne`
+  - Panel ustawień firmy + profile (localStorage `hex_firma_profiles`) zachowane
+  - Numeracja umów `nr/skrot/agent/rok`
+  - Załączniki: Z1–Z8 (RODO, OC, PEP, zgody, karty prezentacji)
+  - 2117 linii
+
+### Zmieniono
+- `js/core.js` — rozszerzony model firmy (addytywnie):
+  - `FIRMA_DOMYSLNE`: dodane `skrot`, `agent` (KOD do numeracji), `rok`, `agent_email`, `agent_tel`, `wlasciciel` (imię — wcześniej w `agent`)
+  - `buildFirmaPochodne(F)` liczy pochodne `adres`, `krótka`, `ceidg` i **ZWRACA F** (wcześniej `undefined` — naprawia też najem.js `const FIRMA = buildFirmaPochodne(...)`)
+- `js/logo.js` — wstawiono `LOGO_PDF_B64` (z prefiksem) + `DEFAULT_POLISA_B64` (surowy base64) zamiast placeholdera
+
+### Decyzje
+- Wariant B (modyfikowany): zachowano panel firmy + profile + numerację; języki tylko **PL + EN** (UA/BY świadomie pominięte — decyzja v4 sesja 1); layout dwukolumnowy zostaje dla EN
+- Podpisy migrowane na `HEX.initSig/getSig` (rezygnacja z lokalnego `sigState`)
+- `index.html` bez zmian (`#sprzedaz-root` i `<script src="js/sprzedaz.js">` już były)
+
+### Do weryfikacji
+- `ceidg` w `core.js` zawiera frazę „Centralnej Ewidencji Działalności Gospodarczej" — dla Home Experts sp. z o.o. (KRS) może wymagać korekty na „Rejestru Przedsiębiorców KRS"
+- Test w przeglądarce (brak runtime JS lokalnie — walidacja statyczna: balans, API, klucze texts, ID, brak undefined-calls — wszystko ✓)
 
 ---
 
