@@ -165,6 +165,12 @@ const HEX = (() => {
 
   // ── Init (po załadowaniu DOM) ──
   function init() {
+    // Logo na granatowej belce (z logo.js, globalny LOGO_PDF_B64)
+    const lg = document.getElementById('hex-logo');
+    if (lg && typeof LOGO_PDF_B64 !== 'undefined' && LOGO_PDF_B64) {
+      lg.src = LOGO_PDF_B64;
+      lg.style.display = '';
+    }
     // Bind zakładek
     document.querySelectorAll('.hex-tab[data-tab]').forEach(tab => {
       tab.addEventListener('click', () => {

@@ -19,72 +19,72 @@ const NAJEM = (() => {
     if (!root) return;
     root.innerHTML = `
 <!-- ═══ STEPPER ═══ -->
-<div class="stepper" id="najem-stepper">
-  <div class="step" id="najem-step1"><span class="step-num">1</span><span class="step-lbl">Rodzaj</span></div>
-  <div class="step" id="najem-step2"><span class="step-num">2</span><span class="step-lbl">Klient</span></div>
-  <div class="step" id="najem-step3"><span class="step-num">3</span><span class="step-lbl">Umowa</span></div>
-  <div class="step" id="najem-step4"><span class="step-num">4</span><span class="step-lbl">PEP/RODO</span></div>
-  <div class="step" id="najem-step5"><span class="step-num">5</span><span class="step-lbl">Podpisy</span></div>
-  <div class="step" id="najem-step6"><span class="step-num">6</span><span class="step-lbl">Podsumowanie</span></div>
+<div class="steps" id="najem-stepper">
+  <div class="step" id="najem-step1"><span class="step-num">1</span><span class="step-label">Rodzaj</span></div>
+  <div class="step" id="najem-step2"><span class="step-num">2</span><span class="step-label">Klient</span></div>
+  <div class="step" id="najem-step3"><span class="step-num">3</span><span class="step-label">Umowa</span></div>
+  <div class="step" id="najem-step4"><span class="step-num">4</span><span class="step-label">PEP/RODO</span></div>
+  <div class="step" id="najem-step5"><span class="step-num">5</span><span class="step-label">Podpisy</span></div>
+  <div class="step" id="najem-step6"><span class="step-num">6</span><span class="step-label">Podsumowanie</span></div>
 </div>
 
 <!-- ═══ KROK 1: Rodzaj umowy ═══ -->
-<div class="najem-page" id="najem-page1">
-  <div class="section-card">
-    <h3 class="section-title">Rodzaj umowy pośrednictwa</h3>
+<div class="page" id="najem-page1">
+  <div class="card">
+    <h3 class="card-title">Rodzaj umowy pośrednictwa</h3>
     <div class="contract-options" id="najem-contract-options">
       <div class="contract-option" id="najem-opt-najemca" onclick="NAJEM.selectType('najemca')">
         <div class="contract-icon">🔍</div>
-        <div class="contract-label">Pośrednictwo w poszukiwaniu najmu</div>
-        <div class="contract-sub">Klient szuka mieszkania do wynajęcia</div>
+        <div class="contract-name">Pośrednictwo w poszukiwaniu najmu</div>
+        <div class="contract-desc">Klient szuka mieszkania do wynajęcia</div>
       </div>
       <div class="contract-option" id="najem-opt-wynajmujacy" onclick="NAJEM.selectType('wynajmujacy')">
         <div class="contract-icon">🏠</div>
-        <div class="contract-label">Pośrednictwo w najmie</div>
-        <div class="contract-sub">Klient wynajmuje swoją nieruchomość</div>
+        <div class="contract-name">Pośrednictwo w najmie</div>
+        <div class="contract-desc">Klient wynajmuje swoją nieruchomość</div>
       </div>
     </div>
-    <div class="btn-row">
-      <button class="btn-primary" id="najem-next1" disabled onclick="NAJEM.goNext(1)">Dalej →</button>
+    <div class="nav-row">
+      <button class="btn btn-primary" id="najem-next1" disabled onclick="NAJEM.goNext(1)">Dalej →</button>
     </div>
   </div>
 </div>
 
 <!-- ═══ KROK 2: Dane klienta ═══ -->
-<div class="najem-page" id="najem-page2">
-  <div class="section-card">
-    <h3 class="section-title">Dane klienta</h3>
-    <div class="btn-group-inline" style="margin-bottom:16px;">
-      <button class="btn-toggle active" id="najem-btn-klient-pryw" onclick="NAJEM.setKlientTyp('pryw')">Osoba prywatna</button>
-      <button class="btn-toggle" id="najem-btn-klient-firma" onclick="NAJEM.setKlientTyp('firma')">Firma</button>
+<div class="page" id="najem-page2">
+  <div class="card">
+    <h3 class="card-title">Dane klienta</h3>
+    <div class="lang-strip" style="margin-bottom:16px;">
+      <button class="lang-btn active" id="najem-btn-klient-pryw" onclick="NAJEM.setKlientTyp('pryw')">Osoba prywatna</button>
+      <button class="lang-btn" id="najem-btn-klient-firma" onclick="NAJEM.setKlientTyp('firma')">Firma</button>
     </div>
     <div class="form-grid">
-      <div class="form-field">
+      <div class="field">
         <label id="n_lbl_imie">Imię i nazwisko *</label>
         <input type="text" id="n_klient_imie" placeholder="Jan Kowalski">
       </div>
-      <div class="form-field">
+      <div class="field">
         <label id="n_lbl_adres">Adres zamieszkania *</label>
         <input type="text" id="n_klient_adres" placeholder="ul. Przykładowa 1, 80-001 Gdańsk">
       </div>
-      <div class="form-field">
+      <div class="field">
         <label id="n_lbl_pesel">PESEL *</label>
         <input type="text" id="n_klient_pesel" placeholder="00000000000">
       </div>
-      <div class="form-field">
+      <div class="field">
         <label id="n_lbl_dowod">Nr dokumentu tożsamości *</label>
         <input type="text" id="n_klient_dowod" placeholder="ABC123456">
       </div>
-      <div class="form-field">
+      <div class="field">
         <label>Adres e-mail</label>
         <input type="email" id="n_klient_email" placeholder="jan@example.com">
       </div>
-      <div class="form-field">
+      <div class="field">
         <label>Telefon</label>
         <input type="tel" id="n_klient_telefon" placeholder="+48 500 000 000">
       </div>
     </div>
-    <div class="form-field" style="margin-top:8px;">
+    <div class="field" style="margin-top:8px;">
       <label>
         <input type="checkbox" id="n_chk_pelnom" onchange="NAJEM.togglePelnom(this.checked)">
         Klient działa przez pełnomocnika
@@ -92,87 +92,87 @@ const NAJEM = (() => {
     </div>
     <div id="najem-pelnom-section" style="display:none; margin-top:12px;">
       <div class="form-grid">
-        <div class="form-field">
+        <div class="field">
           <label>Imię i nazwisko pełnomocnika</label>
           <input type="text" id="n_pelnom_imie">
         </div>
-        <div class="form-field">
+        <div class="field">
           <label>Adres pełnomocnika</label>
           <input type="text" id="n_pelnom_adres">
         </div>
       </div>
     </div>
-    <div class="btn-row">
-      <button class="btn-secondary" onclick="NAJEM.goBack(2)">← Wstecz</button>
-      <button class="btn-primary" onclick="NAJEM.goNext(2)">Dalej →</button>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="NAJEM.goBack(2)">← Wstecz</button>
+      <button class="btn btn-primary" onclick="NAJEM.goNext(2)">Dalej →</button>
     </div>
   </div>
 </div>
 
 <!-- ═══ KROK 3: Warunki umowy ═══ -->
-<div class="najem-page" id="najem-page3">
-  <div class="section-card">
-    <h3 class="section-title">Warunki umowy</h3>
+<div class="page" id="najem-page3">
+  <div class="card">
+    <h3 class="card-title">Warunki umowy</h3>
     <div class="form-grid">
-      <div class="form-field">
+      <div class="field">
         <label>Data zawarcia umowy</label>
         <input type="date" id="n_data_umowy">
       </div>
-      <div class="form-field">
+      <div class="field">
         <label>Miejsce zawarcia umowy</label>
         <input type="text" id="n_miejsce_umowy" placeholder="Gdańsk">
       </div>
-      <div class="form-field">
+      <div class="field">
         <label>Nr umowy (opcjonalnie)</label>
         <input type="text" id="n_nr_umowy" placeholder="001">
       </div>
-      <div class="form-field">
+      <div class="field">
         <label>Czas trwania (miesięcy)</label>
         <input type="number" id="n_czas_trwania" placeholder="3" min="1">
       </div>
     </div>
 
     <!-- Wynagrodzenie -->
-    <div class="subsection-title" style="margin-top:16px;">Wynagrodzenie pośrednika</div>
-    <div class="btn-group-inline" style="margin-bottom:8px;">
-      <button class="btn-toggle active" id="n_btn-pct" onclick="NAJEM.setProwizjaTyp('pct')">%</button>
-      <button class="btn-toggle" id="n_btn-zl" onclick="NAJEM.setProwizjaTyp('zl')">zł</button>
+    <div class="section-label" style="margin-top:16px;">Wynagrodzenie pośrednika</div>
+    <div class="lang-strip" style="margin-bottom:8px;">
+      <button class="lang-btn active" id="n_btn-pct" onclick="NAJEM.setProwizjaTyp('pct')">%</button>
+      <button class="lang-btn" id="n_btn-zl" onclick="NAJEM.setProwizjaTyp('zl')">zł</button>
     </div>
-    <div class="form-field">
+    <div class="field">
       <input type="number" id="n_wynagrodzenie" placeholder="100" oninput="NAJEM.updateBadge()">
       <span class="form-hint" id="n_prowizja-hint"></span>
     </div>
 
     <!-- Wariant płatności §5 -->
-    <div class="subsection-title" style="margin-top:16px;">Wariant płatności</div>
-    <div class="contract-options compact" style="gap:8px;">
-      <div class="contract-option selected compact" id="n_opt-s5-jednorazowo" onclick="NAJEM.selectS5('jednorazowo')">
-        <div class="contract-label">Jednorazowo</div>
-        <div class="contract-sub">100% po zawarciu umowy najmu</div>
+    <div class="section-label" style="margin-top:16px;">Wariant płatności</div>
+    <div class="contract-options" style="gap:8px;">
+      <div class="contract-option selected" id="n_opt-s5-jednorazowo" onclick="NAJEM.selectS5('jednorazowo')">
+        <div class="contract-name">Jednorazowo</div>
+        <div class="contract-desc">100% po zawarciu umowy najmu</div>
       </div>
-      <div class="contract-option compact" id="n_opt-s5-zaliczka" onclick="NAJEM.selectS5('zaliczka')">
-        <div class="contract-label">Zaliczka</div>
-        <div class="contract-sub">50% zaliczki + 50% po zawarciu</div>
+      <div class="contract-option" id="n_opt-s5-zaliczka" onclick="NAJEM.selectS5('zaliczka')">
+        <div class="contract-name">Zaliczka</div>
+        <div class="contract-desc">50% zaliczki + 50% po zawarciu</div>
       </div>
     </div>
 
     <!-- Pola nieruchomości (tylko wynajmujący) -->
     <div id="najem-nieruch-fields" style="display:none; margin-top:16px;">
-      <div class="subsection-title">Nieruchomość</div>
+      <div class="section-label">Nieruchomość</div>
       <div class="form-grid">
-        <div class="form-field">
+        <div class="field">
           <label>Adres nieruchomości</label>
           <input type="text" id="n_nieruch_adres" placeholder="ul. Przykładowa 1/2, Gdańsk">
         </div>
-        <div class="form-field">
+        <div class="field">
           <label>Rodzaj nieruchomości</label>
           <input type="text" id="n_nieruch_rodzaj" placeholder="mieszkanie, dom, lokal...">
         </div>
-        <div class="form-field">
+        <div class="field">
           <label>Powierzchnia (m²)</label>
           <input type="number" id="n_nieruch_pow" placeholder="50">
         </div>
-        <div class="form-field">
+        <div class="field">
           <label>Czynsz ofertowy (zł/mc)</label>
           <input type="number" id="n_nieruch_czynsz" placeholder="2500">
         </div>
@@ -180,25 +180,25 @@ const NAJEM = (() => {
     </div>
 
     <!-- E-mail do faktury -->
-    <div class="form-field" style="margin-top:16px;">
+    <div class="field" style="margin-top:16px;">
       <label>E-mail do faktury VAT (e-faktura)</label>
       <input type="email" id="n_fakt_email" placeholder="jan@example.com">
     </div>
 
-    <div class="btn-row">
-      <button class="btn-secondary" onclick="NAJEM.goBack(3)">← Wstecz</button>
-      <button class="btn-primary" onclick="NAJEM.goNext(3)">Dalej →</button>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="NAJEM.goBack(3)">← Wstecz</button>
+      <button class="btn btn-primary" onclick="NAJEM.goNext(3)">Dalej →</button>
     </div>
   </div>
 </div>
 
 <!-- ═══ KROK 4: PEP + RODO ═══ -->
-<div class="najem-page" id="najem-page4">
-  <div class="section-card">
-    <h3 class="section-title">Oświadczenia PEP i zgody RODO</h3>
+<div class="page" id="najem-page4">
+  <div class="card">
+    <h3 class="card-title">Oświadczenia PEP i zgody RODO</h3>
 
-    <div class="subsection-title">Oświadczenie PEP</div>
-    <div class="form-field">
+    <div class="section-label">Oświadczenie PEP</div>
+    <div class="field">
       <label>Imię i nazwisko klienta</label>
       <input type="text" id="n_pep_imie" readonly>
     </div>
@@ -219,7 +219,7 @@ const NAJEM = (() => {
       <label><input type="radio" name="n_pep3" value="NIE" checked> NIE</label>
     </div>
 
-    <div class="subsection-title" style="margin-top:20px;">Zgody RODO</div>
+    <div class="section-label" style="margin-top:20px;">Zgody RODO</div>
     <div class="rodo-item">
       <span>Zgoda ogólna na przetwarzanie danych w celach pośrednictwa</span>
       <label><input type="radio" name="n_rodo0" value="TAK"> TAK</label>
@@ -246,58 +246,64 @@ const NAJEM = (() => {
       <label><input type="radio" name="n_rodo4" value="NIE" checked> NIE</label>
     </div>
 
-    <div class="btn-row">
-      <button class="btn-secondary" onclick="NAJEM.goBack(4)">← Wstecz</button>
-      <button class="btn-primary" onclick="NAJEM.goNext(4)">Dalej →</button>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="NAJEM.goBack(4)">← Wstecz</button>
+      <button class="btn btn-primary" onclick="NAJEM.goNext(4)">Dalej →</button>
     </div>
   </div>
 </div>
 
 <!-- ═══ KROK 5: Podpisy + OC ═══ -->
-<div class="najem-page" id="najem-page5">
-  <div class="section-card">
-    <h3 class="section-title">Podpisy i polisa OC</h3>
+<div class="page" id="najem-page5">
+  <div class="card">
+    <h3 class="card-title">Podpisy i polisa OC</h3>
 
-    <div class="subsection-title">Podpis klienta</div>
+    <div class="section-label">Podpis klienta</div>
     <div class="sig-wrap" id="n-sig-klient-wrap">
-      <canvas id="najemSigKlient"></canvas>
-      <button class="btn-clear-sig" onclick="NAJEM.clearSig('klient')">Wyczyść</button>
+      <canvas id="najemSigKlient" class="sig-canvas" width="700" height="200"></canvas>
+      <div class="sig-actions">
+        <button class="btn btn-ghost sig-clear-btn" onclick="NAJEM.clearSig('klient')">✕ Wyczyść</button>
+        <span class="sig-hint">← Podpisz tutaj</span>
+      </div>
     </div>
 
-    <div class="subsection-title" style="margin-top:16px;">Podpis agenta</div>
+    <div class="section-label" style="margin-top:16px;">Podpis agenta</div>
     <div class="sig-wrap" id="n-sig-agent-wrap">
-      <canvas id="najemSigAgent"></canvas>
-      <button class="btn-clear-sig" onclick="NAJEM.clearSig('agent')">Wyczyść</button>
+      <canvas id="najemSigAgent" class="sig-canvas" width="700" height="200"></canvas>
+      <div class="sig-actions">
+        <button class="btn btn-ghost sig-clear-btn" onclick="NAJEM.clearSig('agent')">✕ Wyczyść</button>
+        <span class="sig-hint">← Podpisz tutaj</span>
+      </div>
     </div>
 
-    <div class="subsection-title" style="margin-top:20px;">Polisa OC pośrednika</div>
+    <div class="section-label" style="margin-top:20px;">Polisa OC pośrednika</div>
     <div id="n-oc-preview-wrap">
       <img id="n-oc-preview" src="" alt="Polisa OC" style="display:none; max-width:100%; border-radius:6px; margin-bottom:8px;">
-      <button id="n-oc-delete-btn" class="btn-secondary btn-sm" style="display:none;" onclick="NAJEM.deletePolisa()">🗑 Usuń polisę</button>
+      <button id="n-oc-delete-btn" class="btn btn-ghost" style="display:none;" onclick="NAJEM.deletePolisa()">🗑 Usuń polisę</button>
     </div>
     <div id="n-oc-upload-wrap">
-      <label class="btn-upload">
+      <label class="btn btn-ghost">
         📎 Wgraj polisę OC (PNG / JPG)
         <input type="file" id="n-oc-file-input" accept="image/png,image/jpeg" style="display:none;" onchange="NAJEM.handleOCFile(event)">
       </label>
     </div>
 
-    <div class="btn-row">
-      <button class="btn-secondary" onclick="NAJEM.goBack(5)">← Wstecz</button>
-      <button class="btn-primary" onclick="NAJEM.goNext(5)">Dalej →</button>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="NAJEM.goBack(5)">← Wstecz</button>
+      <button class="btn btn-primary" onclick="NAJEM.goNext(5)">Dalej →</button>
     </div>
   </div>
 </div>
 
 <!-- ═══ KROK 6: Podsumowanie ═══ -->
-<div class="najem-page" id="najem-page6">
-  <div class="section-card">
-    <h3 class="section-title">Podsumowanie</h3>
+<div class="page" id="najem-page6">
+  <div class="card">
+    <h3 class="card-title">Podsumowanie</h3>
     <div id="najem-summary-box" class="summary-box"></div>
-    <div class="btn-row" style="margin-top:20px; flex-wrap:wrap; gap:10px;">
-      <button class="btn-secondary" onclick="NAJEM.goBack(6)">← Wstecz</button>
-      <button class="btn-primary" onclick="NAJEM.generatePDF()">⬇ Generuj PDF</button>
-      <button class="btn-ghost" onclick="NAJEM.reset()">🔄 Nowa umowa</button>
+    <div class="nav-row" style="margin-top:20px; flex-wrap:wrap; gap:10px;">
+      <button class="btn btn-ghost" onclick="NAJEM.goBack(6)">← Wstecz</button>
+      <button class="btn btn-primary" onclick="NAJEM.generatePDF()">⬇ Generuj PDF</button>
+      <button class="btn btn-ghost" onclick="NAJEM.reset()">🔄 Nowa umowa</button>
     </div>
   </div>
 </div>
@@ -335,7 +341,7 @@ const NAJEM = (() => {
 
   function showPage(n) {
     currentPage = n;
-    document.querySelectorAll('.najem-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('#najem-root .page').forEach(p => p.classList.remove('active'));
     document.getElementById('najem-page' + n)?.classList.add('active');
     for (let i = 1; i <= 6; i++) {
       const stepEl = document.getElementById('najem-step' + i);
