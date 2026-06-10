@@ -112,6 +112,31 @@ Format: `[DATA] Sesja N — opis`
 
 ---
 
+## [2026-06-09] Hotfix — SyntaxError getText + brakujący rez.js (Claude Code)
+
+### Naprawiono
+- `js/core.js` — usunięty globalny alias `const getText = (key,data,lang) => HEX.getText(...)`.
+  Kolidował z `function getText` z `texts.js` (oba w zakresie globalnym) → `Uncaught SyntaxError:
+  Identifier 'getText' has already been declared` → `HEX` nie powstawał → wszystkie moduły rzucały
+  „HEX is not defined" (apka martwa). `HEX.getText` czyta obiekt `texts` bezpośrednio, więc usunięcie
+  aliasu jest bezpieczne; moduły wołające bezprefiksowe `getText()` (ax.js) korzystają z funkcji z `texts.js`.
+  Aliasy `loadFirmaData`, `buildFirmaPochodne`, `FIRMA` pozostawione bez zmian.
+
+### Dodano
+- `js/rez.js` — wypchnięty na GitHub (istniał lokalnie po sesji 3, ale **nigdy nie był na repo** →
+  `<script src="js/rez.js">` zwracał 404). Naprawia 404.
+
+### Zmieniono
+- `index.html` — zakomentowane `<script>` dla `kupno.js`, `ankieta.js`, `inne.js` (pliki jeszcze nie
+  istnieją → eliminuje 404). Odkomentować przy sesji 6/7.
+- `gitignore` → `.gitignore` (poprawna nazwa — wcześniej plik był ignorowany przez Git jako zwykły)
+
+### Zweryfikowano
+- Kolejność w `index.html`: `texts.js → logo.js → core.js → moduły` (core.js wewnętrznie używa obiektu `texts`)
+- Brak innych globalnych kolizji nazw (`FIRMA`/`loadFirmaData`/`buildFirmaPochodne`/`getText`) w żadnym module
+
+---
+
 ## Wzorzec wpisu (kopiuj na start każdej sesji)
 
 ```

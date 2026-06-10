@@ -3,8 +3,14 @@
 
 ## 📍 Aktualna sesja
 - **Data:** 2026-06-09
-- **Etap:** Sesja 5 — sprzedaz.js ✅ ZAKOŃCZONA
+- **Etap:** Sesja 5 — sprzedaz.js ✅ ZAKOŃCZONA + hotfix (getText/rez.js)
 - **Następny krok:** Sesja 6 — kupno.js + ankieta.js
+
+## 🩹 Hotfix (2026-06-09, po sesji 5)
+- **SyntaxError `getText`** — usunięty globalny alias `const getText` z `core.js` (kolidował z `function getText` w `texts.js` → `HEX` nie powstawał → „HEX is not defined"). Apka znów się uruchamia.
+- **`rez.js`** — dodany do repo (istniał lokalnie po sesji 3, nigdy nie wypchnięty → 404). ✅
+- **`index.html`** — zakomentowane `<script>` dla `kupno.js`/`ankieta.js`/`inne.js` (jeszcze nie istnieją).
+- **`gitignore` → `.gitignore`** — poprawiona nazwa.
 
 ---
 
