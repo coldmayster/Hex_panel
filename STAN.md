@@ -6,6 +6,11 @@
 - **Etap:** Sesja 5 — sprzedaz.js ✅ ZAKOŃCZONA + hotfix (getText/rez.js)
 - **Następny krok:** Sesja 6 — kupno.js + ankieta.js
 
+## 🎨 Sesja 5b (2026-06-10)
+- **najem.js layout** — klasy CSS w `render()` zmapowane na istniejące w `core.css` (rozjechany układ naprawiony). Zweryfikowane wizualnie.
+- **Logo na belce** — `core.js HEX.init()` ustawia `#hex-logo.src = LOGO_PDF_B64`.
+- **Ustawienia firmy globalnie** — panel + 8 funkcji przeniesione ze `sprzedaz.js` do `core.js` + headera `index.html`. Dostępne ze wszystkich zakładek. Funkcje języka umowy zostają w `sprzedaz.js`.
+
 ## 🩹 Hotfix (2026-06-09, po sesji 5)
 - **SyntaxError `getText`** — usunięty globalny alias `const getText` z `core.js` (kolidował z `function getText` w `texts.js` → `HEX` nie powstawał → „HEX is not defined"). Apka znów się uruchamia.
 - **`rez.js`** — dodany do repo (istniał lokalnie po sesji 3, nigdy nie wypchnięty → 404). ✅

@@ -137,6 +137,37 @@ Format: `[DATA] Sesja N — opis`
 
 ---
 
+## [2026-06-10] Sesja 5b — najem layout, logo, ustawienia firmy globalnie (Claude Code)
+
+### Naprawiono
+- `js/najem.js` — `render()` używał nazw klas CSS nieistniejących w `core.css` → rozjechany layout.
+  Zmapowano na klasy z `core.css` (te z sprzedaz): `stepper→steps`, `step-lbl→step-label`,
+  `najem-page→page`, `section-card→card`, `section-title→card-title`, `subsection-title→section-label`,
+  `contract-label→contract-name`, `contract-sub→contract-desc`, `form-field→field`, `btn-row→nav-row`,
+  `btn-toggle→lang-btn`, `btn-group-inline→lang-strip`, `btn-primary→btn btn-primary`,
+  `btn-secondary/btn-ghost/btn-upload→btn btn-ghost`, podpisy→`sig-canvas`+`sig-actions`+`sig-clear-btn`+`sig-hint`.
+  `showPage()` selektor `.najem-page`→`#najem-root .page` (scope). Logika nietknięta.
+
+### Dodano
+- Logo na granatowej belce — `core.js` `HEX.init()` ustawia `<img id="hex-logo">.src = LOGO_PDF_B64`
+- Panel „Ustawienia firmy" **globalny** — przeniesiony z zakładki Sprzedaż do headera (dostępny ze wszystkich zakładek)
+
+### Zmieniono
+- `core.js` — 8 funkcji panelu firmy (`toggleFirmaPanel`, `initFirmaPanel`, `applyFirmaSettings`,
+  `resetFirmaToDefault`, `renderFirmaProfiles`, `loadSelectedProfile`, `saveFirmaProfil`, `loadFirmaProfile`)
+  przeniesione ze `sprzedaz.js` jako globalne; `Boot` wywołuje `initFirmaPanel()`; `initFirmaPanel`
+  rozprzęgnięte od `langFeatureEnabled` (czyta `localStorage 'hex_lang_enabled'`)
+- `index.html` — przycisk „⚙️ Ustawienia firmy" w `.hex-header-actions` + globalny `#firma-settings-panel`
+- `sprzedaz.js` — usunięty panel firmy + 8 funkcji z `render()`/IIFE i z API; funkcje **języka umowy**
+  (`selectContractLang`, `toggleLangFeature`, `initLangState`, `applyLangFeatureVisibility`) zostają (sprzedaz-specific)
+
+### Zweryfikowano (preview, zrzuty)
+- najem: stepper poziomy, karty z tłem, toggle `lang-btn`, podpisy — jak w Sprzedaż
+- logo widoczne; panel firmy otwiera się z każdej zakładki (test z Najem), pola wypełnione z `HEX.loadFirmaData()`,
+  1 panel (bez duplikatu), zero błędów w konsoli
+
+---
+
 ## Wzorzec wpisu (kopiuj na start każdej sesji)
 
 ```

@@ -17,122 +17,6 @@ const SPRZEDAZ = (() => {
     root.innerHTML = `
 <div class="container">
 
-  <!-- PANEL USTAWIEŃ FIRMY -->
-  <div style="margin-bottom:12px; text-align:right;">
-    <button id="firma-panel-toggle-btn" onclick="SPRZEDAZ.toggleFirmaPanel()"
-      style="background:transparent; border:1.5px solid var(--border); border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; color:var(--gray); cursor:pointer; transition:all 0.2s;"
-      onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--navy)'"
-      onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--gray)'">
-      ⚙️ Ustawienia firmy
-    </button>
-  </div>
-
-  <div id="firma-settings-panel" style="display:none; margin-bottom:20px;">
-    <div class="card" style="border:2px solid var(--gold);">
-      <div class="card-title" style="display:flex; align-items:center; gap:10px;">
-        <span>⚙️ Dane Pośrednika (Twojej firmy)</span>
-        <span style="font-size:11px; font-weight:400; color:var(--gray); margin-left:auto;">Dane zapisywane lokalnie w przeglądarce</span>
-      </div>
-      <div class="card-sub" style="margin-bottom:16px;">Wypełnij i zapisz dane swojej firmy — będą automatycznie wstawiane do każdej umowy. Możesz przechowywać wiele profili.</div>
-
-      <!-- Wybór zapisanego profilu -->
-      <div class="field span2" style="margin-bottom:16px;">
-        <label class="field-label">Wczytaj zapisany profil</label>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <select id="fp_profile_select" class="field-input" style="flex:1;" onchange="SPRZEDAZ.loadSelectedProfile()">
-            <option value="">— wybierz zapisany profil —</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-grid two" style="grid-template-columns:1fr 1fr; gap:14px;">
-        <div class="field span2">
-          <label class="field-label">Nazwa firmy *</label>
-          <input type="text" id="fp_nazwa" class="field-input" placeholder="np. Home Experts sp. z o.o.">
-        </div>
-        <div class="field">
-          <label class="field-label">Imię i nazwisko agenta *</label>
-          <input type="text" id="fp_wlasciciel" class="field-input" placeholder="np. Jan Kowalski">
-        </div>
-        <div class="field">
-          <label class="field-label">Stanowisko reprezentanta *</label>
-          <select id="fp_stanowisko" class="field-input">
-            <option value="pełnomocnik zarządu" selected>pełnomocnik zarządu</option>
-            <option value="właściciel firmy">właściciel firmy</option>
-            <option value="członek zarządu">członek zarządu</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label class="field-label">NIP</label>
-          <input type="text" id="fp_nip" class="field-input" placeholder="np. 1234567890">
-        </div>
-        <div class="field">
-          <label class="field-label">REGON / KRS</label>
-          <input type="text" id="fp_regon" class="field-input" placeholder="np. KRS 0001021278 / REGON 524568930">
-        </div>
-        <div class="field span2">
-          <label class="field-label">Ulica i numer lokalu *</label>
-          <input type="text" id="fp_ulica" class="field-input" placeholder="np. Romana Dmowskiego 12 lokal 201">
-        </div>
-        <div class="field">
-          <label class="field-label">Kod pocztowy *</label>
-          <input type="text" id="fp_kod" class="field-input" placeholder="np. 80-264">
-        </div>
-        <div class="field">
-          <label class="field-label">Miasto *</label>
-          <input type="text" id="fp_miasto" class="field-input" placeholder="np. Gdańsk">
-        </div>
-        <div class="field">
-          <label class="field-label">E-mail biura</label>
-          <input type="email" id="fp_email" class="field-input" placeholder="np. biuro@firma.pl">
-        </div>
-        <div class="field">
-          <label class="field-label">Telefon biura</label>
-          <input type="text" id="fp_tel" class="field-input" placeholder="np. 500 600 700">
-        </div>
-        <div class="field">
-          <label class="field-label">E-mail agenta / pośrednika</label>
-          <input type="email" id="fp_agent_email" class="field-input" placeholder="np. agent@homeexperts.pl">
-        </div>
-        <div class="field">
-          <label class="field-label">Telefon agenta / pośrednika</label>
-          <input type="text" id="fp_agent_tel" class="field-input" placeholder="np. 600 700 800">
-        </div>
-        <div class="field">
-          <label class="field-label">Skrót firmy (np. HEX)</label>
-          <input type="text" id="fp_skrot" class="field-input" placeholder="np. HEX" maxlength="8">
-        </div>
-        <div class="field">
-          <label class="field-label">Kod agenta</label>
-          <input type="text" id="fp_agent" class="field-input" placeholder="np. MAZI" maxlength="10">
-        </div>
-        <div class="field">
-          <label class="field-label">Rok (do numeracji)</label>
-          <input type="text" id="fp_rok" class="field-input" placeholder="np. 2026" maxlength="4">
-        </div>
-      </div>
-
-      <div style="border-top:1px solid var(--border); margin-top:20px; padding-top:18px;">
-        <div class="section-label" style="margin-bottom:10px;">Obsługa klientów zagranicznych</div>
-        <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--cream);">
-          <input type="checkbox" id="fp_lang_enabled" onchange="SPRZEDAZ.toggleLangFeature(this.checked)"
-            style="width:18px; height:18px; margin-top:2px; accent-color:var(--gold); cursor:pointer; flex-shrink:0;">
-          <div>
-            <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:3px;">Włącz opcję tłumaczenia umowy</div>
-            <div style="font-size:11px; color:var(--gray); line-height:1.5;">Gdy włączone — w sekcji „Dane klienta" pojawi się selektor języka umowy (EN / UA / BY). Umowa zostanie wygenerowana w układzie dwukolumnowym: <strong>PL po lewej, tłumaczenie po prawej</strong>. Domyślnie wyłączone.</div>
-          </div>
-        </label>
-      </div>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="SPRZEDAZ.applyFirmaSettings()">💾 Zapisz i zastosuj</button>
-        <button class="btn" onclick="SPRZEDAZ.resetFirmaToDefault()" style="background:var(--cream); color:var(--gray); border:1.5px solid var(--border);">↺ Przywróć domyślne</button>
-        <button class="btn" onclick="SPRZEDAZ.toggleFirmaPanel()" style="background:var(--cream); color:var(--gray); border:1.5px solid var(--border);">Anuluj</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Step indicator -->
   <div class="steps">
     <div class="step active" id="step1-ind"><div class="step-num">1</div><div class="step-label">Rodzaj umowy</div></div>
@@ -629,30 +513,6 @@ const SPRZEDAZ = (() => {
 </div>`;
   }
 
-  // ── Profile firmy (localStorage, lokalne dla modułu) ──
-function saveFirmaProfil(data) {
-  try {
-    const key = 'hex_firma_profiles';
-    let profiles = [];
-    const saved = localStorage.getItem(key);
-    if (saved) profiles = JSON.parse(saved);
-    // Usuń duplikaty o tej samej nazwie
-    profiles = profiles.filter(p => p.nazwa !== data.nazwa);
-    profiles.unshift(data); // dodaj na początku
-    if (profiles.length > 10) profiles = profiles.slice(0, 10);
-    localStorage.setItem(key, JSON.stringify(profiles));
-  } catch(e) {}
-}
-
-// Pobierz zapisane profile
-function loadFirmaProfile() {
-  try {
-    const saved = localStorage.getItem('hex_firma_profiles');
-    if (saved) return JSON.parse(saved);
-  } catch(e) {}
-  return [];
-}
-
 let selectedContract = null;
 let prowizjaTyp = 'pct';   // 'pct' | 'zl'
 let s5Wariant   = 'dwie';  // 'dwie' | 'jedna'
@@ -1030,86 +890,6 @@ function buildSummary() {
 // =====================================================
 // PANEL USTAWIEŃ FIRMY
 // =====================================================
-function toggleFirmaPanel() {
-  const panel = document.getElementById('firma-settings-panel');
-  const btn   = document.getElementById('firma-panel-toggle-btn');
-  const isOpen = panel.style.display !== 'none';
-  panel.style.display = isOpen ? 'none' : 'block';
-  btn.textContent = isOpen ? '⚙️ Ustawienia firmy' : '✕ Zamknij ustawienia';
-}
-
-function initFirmaPanel() {
-  // Fill form fields from current FIRMA
-  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
-                  'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
-  fields.forEach(f => {
-    const el = document.getElementById('fp_' + f);
-    if (el) el.value = HEX.loadFirmaData()[f] || '';
-  });
-  // Przywróć stan checkboxa języka
-  const chk = document.getElementById('fp_lang_enabled');
-  if (chk) chk.checked = langFeatureEnabled;
-  renderFirmaProfiles();
-}
-
-function renderFirmaProfiles() {
-  const profiles = loadFirmaProfile();
-  const sel = document.getElementById('fp_profile_select');
-  if (!sel) return;
-  sel.innerHTML = '<option value="">— wybierz zapisany profil —</option>';
-  profiles.forEach((p, i) => {
-    const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = p.nazwa + (p.nip ? ' (NIP: ' + p.nip + ')' : '');
-    sel.appendChild(opt);
-  });
-}
-
-function loadSelectedProfile() {
-  const sel = document.getElementById('fp_profile_select');
-  const idx = parseInt(sel.value);
-  if (isNaN(idx)) return;
-  const profiles = loadFirmaProfile();
-  if (!profiles[idx]) return;
-  const data = profiles[idx];
-  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
-                  'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
-  fields.forEach(f => {
-    const el = document.getElementById('fp_' + f);
-    if (el) el.value = data[f] || '';
-  });
-}
-
-function applyFirmaSettings() {
-  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
-                  'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
-  const data = {};
-  fields.forEach(f => {
-    const el = document.getElementById('fp_' + f);
-    data[f] = el ? el.value.trim() : '';
-  });
-  if (!data.nazwa || !data.ulica || !data.kod || !data.miasto) {
-    alert('Wypełnij co najmniej: Nazwa firmy, Ulica, Kod pocztowy, Miasto.');
-    return;
-  }
-  HEX.saveFirmaData(data);
-  saveFirmaProfil(data);
-  renderFirmaProfiles();
-  alert('✅ Dane firmy zostały zapisane i będą użyte w kolejnych umowach.');
-  toggleFirmaPanel();
-}
-
-function resetFirmaToDefault() {
-  if (!confirm('Przywrócić domyślne dane firmy?')) return;
-  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
-                  'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
-  fields.forEach(f => {
-    const el = document.getElementById('fp_' + f);
-    if (el) el.value = HEX.FIRMA[f] || '';
-  });
-}
-// =====================================================
-
 function toggleZadanieRozpoczecia(checked) {
   // just visual feedback; actual state read in PDF gen
 }
@@ -2096,7 +1876,6 @@ function prefillAnkietaFromGenerator() {
   // ── Init (onActivate) ──
   function init() {
     render();
-    initFirmaPanel();
     initLangState();
     const dataField = document.getElementById('data_umowy');
     if (dataField && !dataField.value) {
@@ -2110,7 +1889,7 @@ function prefillAnkietaFromGenerator() {
 
   // ── Public API ──
   return {
-    selectContract, setProwizjaTyp, selectS5, updateBadge, setKlientTyp, togglePelnom, addPrezentacja, removePrezentacja, goNext, goBack, clearSig, ocDeletePolisa, handleOCFile, generatePDF, resetGenerator, selectContractLang, toggleZadanieRozpoczecia, toggleFirmaPanel, applyFirmaSettings, resetFirmaToDefault, loadSelectedProfile, toggleLangFeature, prefillAnkietaFromGenerator,
+    selectContract, setProwizjaTyp, selectS5, updateBadge, setKlientTyp, togglePelnom, addPrezentacja, removePrezentacja, goNext, goBack, clearSig, ocDeletePolisa, handleOCFile, generatePDF, resetGenerator, selectContractLang, toggleZadanieRozpoczecia, toggleLangFeature, prefillAnkietaFromGenerator,
   };
 
 })();

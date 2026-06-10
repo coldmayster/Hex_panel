@@ -214,5 +214,110 @@ const loadFirmaData      = () => HEX.loadFirmaData();
 const buildFirmaPochodne = (F) => HEX.buildFirmaPochodne(F);
 const FIRMA              = HEX.FIRMA;
 
+
+// ═══ Ustawienia firmy — panel globalny (header + #firma-settings-panel) ═══
+// Przeniesione ze sprzedaz.js; wspólne dla wszystkich zakładek.
+function saveFirmaProfil(data) {
+  try {
+    const key = 'hex_firma_profiles';
+    let profiles = [];
+    const saved = localStorage.getItem(key);
+    if (saved) profiles = JSON.parse(saved);
+    // Usuń duplikaty o tej samej nazwie
+    profiles = profiles.filter(p => p.nazwa !== data.nazwa);
+    profiles.unshift(data); // dodaj na początku
+    if (profiles.length > 10) profiles = profiles.slice(0, 10);
+    localStorage.setItem(key, JSON.stringify(profiles));
+  } catch(e) {}
+}
+
+// Pobierz zapisane profile
+function loadFirmaProfile() {
+  try {
+    const saved = localStorage.getItem('hex_firma_profiles');
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return [];
+}
+
+function toggleFirmaPanel() {
+  const panel = document.getElementById('firma-settings-panel');
+  const btn   = document.getElementById('firma-panel-toggle-btn');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  btn.textContent = isOpen ? '⚙️ Ustawienia firmy' : '✕ Zamknij ustawienia';
+}
+
+function initFirmaPanel() {
+  // Fill form fields from current FIRMA
+  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
+                  'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
+  fields.forEach(f => {
+    const el = document.getElementById('fp_' + f);
+    if (el) el.value = HEX.loadFirmaData()[f] || '';
+  });
+  // Przywróć stan checkboxa języka
+  const chk = document.getElementById('fp_lang_enabled');
+  if (chk) chk.checked = localStorage.getItem('hex_lang_enabled') === '1';
+  renderFirmaProfiles();
+}
+
+function renderFirmaProfiles() {
+  const profiles = loadFirmaProfile();
+  const sel = document.getElementById('fp_profile_select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— wybierz zapisany profil —</option>';
+  profiles.forEach((p, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = p.nazwa + (p.nip ? ' (NIP: ' + p.nip + ')' : '');
+    sel.appendChild(opt);
+  });
+}
+
+function loadSelectedProfile() {
+  const sel = document.getElementById('fp_profile_select');
+  const idx = parseInt(sel.value);
+  if (isNaN(idx)) return;
+  const profiles = loadFirmaProfile();
+  if (!profiles[idx]) return;
+  const data = profiles[idx];
+  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
+                  'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
+  fields.forEach(f => {
+    const el = document.getElementById('fp_' + f);
+    if (el) el.value = data[f] || '';
+  });
+}
+
+function applyFirmaSettings() {
+  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
+                  'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
+  const data = {};
+  fields.forEach(f => {
+    const el = document.getElementById('fp_' + f);
+    data[f] = el ? el.value.trim() : '';
+  });
+  if (!data.nazwa || !data.ulica || !data.kod || !data.miasto) {
+    alert('Wypełnij co najmniej: Nazwa firmy, Ulica, Kod pocztowy, Miasto.');
+    return;
+  }
+  HEX.saveFirmaData(data);
+  saveFirmaProfil(data);
+  renderFirmaProfiles();
+  alert('✅ Dane firmy zostały zapisane i będą użyte w kolejnych umowach.');
+  toggleFirmaPanel();
+}
+
+function resetFirmaToDefault() {
+  if (!confirm('Przywrócić domyślne dane firmy?')) return;
+  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
+                  'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
+  fields.forEach(f => {
+    const el = document.getElementById('fp_' + f);
+    if (el) el.value = HEX.FIRMA[f] || '';
+  });
+}
+
 // Boot
-document.addEventListener('DOMContentLoaded', () => HEX.init());
+document.addEventListener('DOMContentLoaded', () => { HEX.init(); initFirmaPanel(); });
