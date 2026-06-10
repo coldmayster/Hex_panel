@@ -200,9 +200,12 @@ const HEX = (() => {
 })();
 
 // Globalne aliasy (kompatybilność wsteczna z istniejącymi modułami)
+// UWAGA: NIE aliasujemy globalnie getText — kolidowałby z `function getText`
+// zdefiniowaną w texts.js (oba w zakresie globalnym → SyntaxError „already declared").
+// Moduły wołające bezprefiksowe getText() korzystają z funkcji z texts.js;
+// moduły v4 (sprzedaz, najem) używają HEX.getText().
 const loadFirmaData      = () => HEX.loadFirmaData();
 const buildFirmaPochodne = (F) => HEX.buildFirmaPochodne(F);
-const getText            = (key, data, lang) => HEX.getText(key, data, lang);
 const FIRMA              = HEX.FIRMA;
 
 // Boot
