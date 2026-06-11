@@ -18,6 +18,7 @@ const NAJEM = (() => {
     const root = document.getElementById('najem-root');
     if (!root) return;
     root.innerHTML = `
+<div class="container">
 <!-- ═══ STEPPER ═══ -->
 <div class="steps" id="najem-stepper">
   <div class="step" id="najem-step1"><span class="step-num">1</span><span class="step-label">Rodzaj</span></div>
@@ -306,6 +307,7 @@ const NAJEM = (() => {
       <button class="btn btn-ghost" onclick="NAJEM.reset()">🔄 Nowa umowa</button>
     </div>
   </div>
+</div>
 </div>
     `;
   }

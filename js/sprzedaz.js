@@ -198,7 +198,6 @@ const SPRZEDAZ = (() => {
             <div style="font-size:11px; font-weight:700;">English</div>
             <div style="font-size:10px; color:var(--gray);">PL + EN</div>
           </div>
-          </div>
         </div>
         <div class="info-note" id="lang-info-note" style="display:none; margin-bottom:0;">
           <span class="info-icon">🌐</span>

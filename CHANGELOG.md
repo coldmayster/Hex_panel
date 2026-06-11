@@ -168,6 +168,24 @@ Format: `[DATA] Sesja N — opis`
 
 ---
 
+## [2026-06-10] Sesja 5c — najem .container + bug „dwa Dalej" w sprzedaz (Claude Code)
+
+### Naprawiono
+- `js/najem.js` — `render()` nie był opakowany w `<div class="container">` → treść rozlewała się na całą
+  szerokość ekranu (na wąskim viewport niewidoczne). Dodano wrapper `.container` (max-width 820px, środkowanie)
+  jak w sprzedaz/ax/rez. Teraz najem wizualnie spójny ze Sprzedaż (marginesy, szerokość, środkowanie).
+- `js/sprzedaz.js` — **bug „dwa przyciski Dalej, jeden martwy"**: w bloku języka (page 2) został osierocony
+  `</div>` po usunięciu opcji UA/BY (sesja 5) → `page2` domykała się za wcześnie, a jej `nav-row`
+  (Wstecz/Dalej) wypadała poza stronę do `.container` i była zawsze widoczna. Usunięto nadmiarowy `</div>`
+  (page2 div-balance 43/43). `nav-row` wróciła do `#page2`; widoczny tylko 1 Dalej (aktywnej strony).
+
+### Zweryfikowano (preview 1400px)
+- najem i sprzedaz wyśrodkowane, identyczna szerokość/marginesy; aneksy (ax.js) już spójne (container 820)
+- sprzedaz: 1 widoczny „Dalej" (`goNext(2)` z powrotem w `#page2`)
+- kupno.js / inne.js — nie istnieją jeszcze (powstaną w architekturze v4 = automatycznie spójne)
+
+---
+
 ## Wzorzec wpisu (kopiuj na start każdej sesji)
 
 ```
