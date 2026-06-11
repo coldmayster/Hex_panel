@@ -2,14 +2,20 @@
 > Aktualizuj ten plik na początku i końcu każdej sesji roboczej.
 
 ## 📍 Aktualna sesja
-- **Data:** 2026-06-09
-- **Etap:** Sesja 5 — sprzedaz.js ✅ ZAKOŃCZONA + hotfix (getText/rez.js)
-- **Następny krok:** Sesja 6 — kupno.js + ankieta.js
+- **Data:** 2026-06-10
+- **Etap:** Sesja 5 → 5c ✅ (sprzedaz v4 + najem v4 + firma globalnie + poprawki layoutu/bugów)
+- **Następny krok:** Sesja 6 — kupno.js + ankieta.js (puste zakładki do zbudowania w v4)
 
 ## 🎨 Sesja 5b (2026-06-10)
 - **najem.js layout** — klasy CSS w `render()` zmapowane na istniejące w `core.css` (rozjechany układ naprawiony). Zweryfikowane wizualnie.
 - **Logo na belce** — `core.js HEX.init()` ustawia `#hex-logo.src = LOGO_PDF_B64`.
 - **Ustawienia firmy globalnie** — panel + 8 funkcji przeniesione ze `sprzedaz.js` do `core.js` + headera `index.html`. Dostępne ze wszystkich zakładek. Funkcje języka umowy zostają w `sprzedaz.js`.
+
+## 🎨 Sesja 5c (2026-06-10)
+- **najem.js `.container`** — `render()` opakowany w `<div class="container">` (max-width 820, środkowanie). Wcześniej treść rozlewała się na całą szerokość na szerokim ekranie. Teraz spójny ze Sprzedaż.
+- **Bug „dwa Dalej" (sprzedaz)** — osierocony `</div>` w bloku języka page2 (pozostałość po usunięciu UA/BY w sesji 5) domykał `page2` za wcześnie → `nav-row` z Dalej wypadała poza stronę. Usunięty; page2 zbilansowane (43/43); widoczny tylko 1 Dalej.
+- **Aneksy (ax.js)** — sprawdzone: już spójne (container 820 + poprawne klasy), bez zmian.
+- **kupno.js / inne.js** — nie istnieją; zakładki puste do zbudowania (sesja 6+).
 
 ## 🩹 Hotfix (2026-06-09, po sesji 5)
 - **SyntaxError `getText`** — usunięty globalny alias `const getText` z `core.js` (kolidował z `function getText` w `texts.js` → `HEX` nie powstawał → „HEX is not defined"). Apka znów się uruchamia.
