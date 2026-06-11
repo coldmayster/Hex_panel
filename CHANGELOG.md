@@ -186,6 +186,30 @@ Format: `[DATA] Sesja N — opis`
 
 ---
 
+## [2026-06-12] Sesja 5d — panel firmy: dowolny podmiot JDG / Spółka (Claude Code)
+
+### Dodano
+- **Forma prawna** w panelu firmy — selektor `#fp_forma` (— wybierz — / JDG (CEIDG) / Spółka (KRS)), domyślnie neutralny
+- Osobne pola **REGON** i **KRS**; KRS (`#fp_krs_wrap`) widoczne tylko dla spółki — nowa funkcja globalna `applyFormaVisibility()`
+- `core.js buildFirmaPochodne` — klauzula rejestrowa (`FIRMA.ceidg`) zależna od `forma`:
+  - `spolka` → „… wpisaną do rejestru przedsiębiorców Krajowego Rejestru Sądowego pod numerem KRS: …, NIP: …, REGON: …"
+  - `jdg`/puste → „… działającą na podstawie wpisu do Centralnej Ewidencji i Informacji o Działalności Gospodarczej (CEIDG), NIP: …, REGON: …"
+
+### Zmieniono
+- `FIRMA_DOMYSLNE` — dodane `forma:''`, `krs:''`; dane domyślne = realna JDG użytkownika
+  (Home Experts Mariusz Zimnowodzki Nieruchomości, NIP 5782809711, REGON 368332760, Dmowskiego 12/201, stanowisko „właściciel firmy")
+- 4 tablice `fields` (initFirmaPanel / loadSelectedProfile / applyFirmaSettings / resetFirmaToDefault) + `forma`,`krs`
+- `index.html` — panel `#firma-settings-panel`: selektor formy + rozdzielenie REGON/KRS
+
+### Naprawiono
+- „Stanowisko reprezentanta" nie jest już puste (domyślne dopasowane do opcji selecta)
+
+### Zweryfikowano (preview)
+- Forma neutralna na start; KRS chowane/pokazywane wg formy (`display none/flex`); `ceidg` poprawne dla JDG i spółki; brak błędów w konsoli
+- Profile (`#fp_profile_select`) zapisują/wczytują `forma`+`krs` (dodane do tablic `fields`)
+
+---
+
 ## Wzorzec wpisu (kopiuj na start każdej sesji)
 
 ```

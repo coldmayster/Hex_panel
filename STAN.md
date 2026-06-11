@@ -11,6 +11,11 @@
 - **Logo na belce** — `core.js HEX.init()` ustawia `#hex-logo.src = LOGO_PDF_B64`.
 - **Ustawienia firmy globalnie** — panel + 8 funkcji przeniesione ze `sprzedaz.js` do `core.js` + headera `index.html`. Dostępne ze wszystkich zakładek. Funkcje języka umowy zostają w `sprzedaz.js`.
 
+## 🏢 Sesja 5d (2026-06-12)
+- **Panel firmy: dowolny podmiot** — selektor „Forma prawna" (JDG/Spółka, domyślnie neutralny), osobne pola REGON i KRS (KRS tylko dla spółki). `FIRMA.ceidg` w `core.js` dobiera klauzulę: spółka → KRS, JDG → CEIDG.
+- **Domyślne dane firmy** = realna JDG użytkownika (Home Experts Mariusz Zimnowodzki Nieruchomości, NIP 5782809711, REGON 368332760). ⚠️ zweryfikować NIP/REGON/e-maile (przepisane ze zrzutu v3).
+- Stanowisko reprezentanta nie jest już puste.
+
 ## 🎨 Sesja 5c (2026-06-10)
 - **najem.js `.container`** — `render()` opakowany w `<div class="container">` (max-width 820, środkowanie). Wcześniej treść rozlewała się na całą szerokość na szerokim ekranie. Teraz spójny ze Sprzedaż.
 - **Bug „dwa Dalej" (sprzedaz)** — osierocony `</div>` w bloku języka page2 (pozostałość po usunięciu UA/BY w sesji 5) domykał `page2` za wcześnie → `nav-row` z Dalej wypadała poza stronę. Usunięty; page2 zbilansowane (43/43); widoczny tylko 1 Dalej.

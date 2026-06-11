@@ -100,8 +100,16 @@
 
       <div class="form-grid two" style="grid-template-columns:1fr 1fr; gap:14px;">
         <div class="field span2">
+          <label class="field-label">Forma prawna *</label>
+          <select id="fp_forma" class="field-input" onchange="applyFormaVisibility()">
+            <option value="">— wybierz —</option>
+            <option value="jdg">Jednoosobowa działalność (CEIDG)</option>
+            <option value="spolka">Spółka (KRS)</option>
+          </select>
+        </div>
+        <div class="field span2">
           <label class="field-label">Nazwa firmy *</label>
-          <input type="text" id="fp_nazwa" class="field-input" placeholder="np. Home Experts sp. z o.o.">
+          <input type="text" id="fp_nazwa" class="field-input" placeholder="np. Home Experts Jan Kowalski / ABC sp. z o.o.">
         </div>
         <div class="field">
           <label class="field-label">Imię i nazwisko agenta *</label>
@@ -121,8 +129,12 @@
           <input type="text" id="fp_nip" class="field-input" placeholder="np. 1234567890">
         </div>
         <div class="field">
-          <label class="field-label">REGON / KRS</label>
-          <input type="text" id="fp_regon" class="field-input" placeholder="np. KRS 0001021278 / REGON 524568930">
+          <label class="field-label">REGON</label>
+          <input type="text" id="fp_regon" class="field-input" placeholder="np. 524568930">
+        </div>
+        <div class="field" id="fp_krs_wrap" style="display:none;">
+          <label class="field-label">KRS</label>
+          <input type="text" id="fp_krs" class="field-input" placeholder="np. 0001021278">
         </div>
         <div class="field span2">
           <label class="field-label">Ulica i numer lokalu *</label>

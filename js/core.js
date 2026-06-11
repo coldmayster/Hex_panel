@@ -36,24 +36,26 @@ const HEX = (() => {
   //  - agent      = KOD agenta do numeracji (np. 'MAZI'), NIE imię
   //  - skrot/rok  = składowe numeru umowy  nr/skrot/agent/rok
   const FIRMA_DOMYSLNE = {
-    nazwa:       'Home Experts',
-    pelna:       'Home Experts sp. z o.o.',
-    nip:         '5833188393',
-    regon:       'KRS 0000671880',
-    ulica:       'Grunwaldzka 82',
-    kod:         '80-244',
+    nazwa:       'Home Experts Mariusz Zimnowodzki Nieruchomości',
+    pelna:       'Home Experts Mariusz Zimnowodzki Nieruchomości',
+    forma:       '',          // '' neutralne | 'jdg' (CEIDG) | 'spolka' (KRS)
+    nip:         '5782809711',
+    regon:       '368332760',
+    krs:         '',          // tylko dla spółki
+    ulica:       'Romana Dmowskiego 12 lokal 201',
+    kod:         '80-264',
     miasto:      'Gdańsk',
     wlasciciel:  'Mariusz Zimnowodzki',
-    stanowisko:  'agent nieruchomości',
-    licencja:    '26340',
-    tel:         '+48 609 810 900',
-    email:       'mariusz@zimnowodzki.pl',
-    agent_email: '',
-    agent_tel:   '',
+    stanowisko:  'właściciel firmy',
+    licencja:    '',
+    tel:         '690 464 944',
+    email:       'kontakt@homeexperts.pl',
+    agent_email: 'mariusz.zimnowodzki@homeexperts.pl',
+    agent_tel:   '797 697 020',
     skrot:       'HEX',
-    agent:       '',
+    agent:       'MAZI',
     rok:         String(new Date().getFullYear()),
-    stopka:      'Zimnowodzki Nieruchomości | Home Experts',
+    stopka:      'Home Experts Mariusz Zimnowodzki Nieruchomości',
   };
 
   function loadFirmaData() {
@@ -71,6 +73,7 @@ const HEX = (() => {
   function buildFirmaPochodne(F) {
     F.pelna      = F.pelna      || F.nazwa;
     F.regon      = F.regon      || '';
+    F.krs        = F.krs        || '';
     F.stopka     = F.stopka     || F.nazwa;
     F.wlasciciel = F.wlasciciel || F.agent || '';
     F.skrot      = F.skrot      || 'HEX';
@@ -79,8 +82,11 @@ const HEX = (() => {
     F.adres  = F.ulica + ', ' + F.kod + ' ' + F.miasto;
     F.krótka = F.nazwa + ', ' + F.ulica + ', ' + F.kod + ' ' + F.miasto;
     const _siedziba = F.nazwa + ' z siedzibą w ' + F.miasto + ' (' + F.kod + ') ' + F.ulica;
-    F.ceidg  = _siedziba + ', działającą na podstawie wpisu do Centralnej Ewidencji Działalności Gospodarczej NIP: '
-             + F.nip + ', REGON ' + F.regon + '. Reprezentowaną przez ' + F.wlasciciel + ' — ' + F.stanowisko + ',';
+    // Klauzula rejestrowa zależna od formy prawnej (spółka → KRS, inaczej → CEIDG)
+    const _rejestr = (F.forma === 'spolka')
+      ? 'wpisaną do rejestru przedsiębiorców Krajowego Rejestru Sądowego pod numerem KRS: ' + F.krs + ', NIP: ' + F.nip + ', REGON: ' + F.regon
+      : 'działającą na podstawie wpisu do Centralnej Ewidencji i Informacji o Działalności Gospodarczej (CEIDG), NIP: ' + F.nip + ', REGON: ' + F.regon;
+    F.ceidg  = _siedziba + ', ' + _rejestr + '. Reprezentowaną przez ' + F.wlasciciel + ' — ' + F.stanowisko + ',';
     return F;
   }
 
@@ -240,6 +246,13 @@ function loadFirmaProfile() {
   return [];
 }
 
+// Pokaż pole KRS tylko dla spółki
+function applyFormaVisibility() {
+  const forma = document.getElementById('fp_forma')?.value;
+  const wrap  = document.getElementById('fp_krs_wrap');
+  if (wrap) wrap.style.display = (forma === 'spolka') ? '' : 'none';
+}
+
 function toggleFirmaPanel() {
   const panel = document.getElementById('firma-settings-panel');
   const btn   = document.getElementById('firma-panel-toggle-btn');
@@ -250,7 +263,7 @@ function toggleFirmaPanel() {
 
 function initFirmaPanel() {
   // Fill form fields from current FIRMA
-  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
+  const fields = ['forma','nazwa','wlasciciel','stanowisko','nip','regon','krs',
                   'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
   fields.forEach(f => {
     const el = document.getElementById('fp_' + f);
@@ -259,6 +272,7 @@ function initFirmaPanel() {
   // Przywróć stan checkboxa języka
   const chk = document.getElementById('fp_lang_enabled');
   if (chk) chk.checked = localStorage.getItem('hex_lang_enabled') === '1';
+  applyFormaVisibility();
   renderFirmaProfiles();
 }
 
@@ -282,16 +296,17 @@ function loadSelectedProfile() {
   const profiles = loadFirmaProfile();
   if (!profiles[idx]) return;
   const data = profiles[idx];
-  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
+  const fields = ['forma','nazwa','wlasciciel','stanowisko','nip','regon','krs',
                   'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
   fields.forEach(f => {
     const el = document.getElementById('fp_' + f);
     if (el) el.value = data[f] || '';
   });
+  applyFormaVisibility();
 }
 
 function applyFirmaSettings() {
-  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
+  const fields = ['forma','nazwa','wlasciciel','stanowisko','nip','regon','krs',
                   'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
   const data = {};
   fields.forEach(f => {
@@ -311,7 +326,7 @@ function applyFirmaSettings() {
 
 function resetFirmaToDefault() {
   if (!confirm('Przywrócić domyślne dane firmy?')) return;
-  const fields = ['nazwa','wlasciciel','stanowisko','nip','regon',
+  const fields = ['forma','nazwa','wlasciciel','stanowisko','nip','regon','krs',
                   'ulica','kod','miasto','email','tel','agent_email','agent_tel','skrot','agent','rok'];
   fields.forEach(f => {
     const el = document.getElementById('fp_' + f);
