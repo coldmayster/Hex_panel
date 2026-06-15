@@ -13,8 +13,7 @@
 
 ## 🏢 Sesja 5d (2026-06-12)
 - **Panel firmy: dowolny podmiot** — selektor „Forma prawna" (JDG/Spółka, domyślnie neutralny), osobne pola REGON i KRS (KRS tylko dla spółki). `FIRMA.ceidg` w `core.js` dobiera klauzulę: spółka → KRS, JDG → CEIDG.
-- **Domyślne dane firmy** = realna JDG użytkownika (Home Experts Mariusz Zimnowodzki Nieruchomości, NIP 5782809711, REGON 368332760). ⚠️ zweryfikować NIP/REGON/e-maile (przepisane ze zrzutu v3).
-- Stanowisko reprezentanta nie jest już puste.
+- **Domyślne dane firmy = PUSTE** (nieuzupełnione — każdy wpisuje swoje); zostaje tylko `rok` (auto). Select „Stanowisko" ma neutralną opcję „— wybierz —".
 
 ## 🎨 Sesja 5c (2026-06-10)
 - **najem.js `.container`** — `render()` opakowany w `<div class="container">` (max-width 820, środkowanie). Wcześniej treść rozlewała się na całą szerokość na szerokim ekranie. Teraz spójny ze Sprzedaż.

@@ -36,26 +36,26 @@ const HEX = (() => {
   //  - agent      = KOD agenta do numeracji (np. 'MAZI'), NIE imię
   //  - skrot/rok  = składowe numeru umowy  nr/skrot/agent/rok
   const FIRMA_DOMYSLNE = {
-    nazwa:       'Home Experts Mariusz Zimnowodzki Nieruchomości',
-    pelna:       'Home Experts Mariusz Zimnowodzki Nieruchomości',
+    nazwa:       '',
+    pelna:       '',
     forma:       '',          // '' neutralne | 'jdg' (CEIDG) | 'spolka' (KRS)
-    nip:         '5782809711',
-    regon:       '368332760',
+    nip:         '',
+    regon:       '',
     krs:         '',          // tylko dla spółki
-    ulica:       'Romana Dmowskiego 12 lokal 201',
-    kod:         '80-264',
-    miasto:      'Gdańsk',
-    wlasciciel:  'Mariusz Zimnowodzki',
-    stanowisko:  'właściciel firmy',
+    ulica:       '',
+    kod:         '',
+    miasto:      '',
+    wlasciciel:  '',
+    stanowisko:  '',
     licencja:    '',
-    tel:         '690 464 944',
-    email:       'kontakt@homeexperts.pl',
-    agent_email: 'mariusz.zimnowodzki@homeexperts.pl',
-    agent_tel:   '797 697 020',
-    skrot:       'HEX',
-    agent:       'MAZI',
-    rok:         String(new Date().getFullYear()),
-    stopka:      'Home Experts Mariusz Zimnowodzki Nieruchomości',
+    tel:         '',
+    email:       '',
+    agent_email: '',
+    agent_tel:   '',
+    skrot:       '',
+    agent:       '',
+    rok:         String(new Date().getFullYear()),   // auto, do numeracji
+    stopka:      '',
   };
 
   function loadFirmaData() {

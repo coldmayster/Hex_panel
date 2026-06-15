@@ -196,13 +196,12 @@ Format: `[DATA] Sesja N — opis`
   - `jdg`/puste → „… działającą na podstawie wpisu do Centralnej Ewidencji i Informacji o Działalności Gospodarczej (CEIDG), NIP: …, REGON: …"
 
 ### Zmieniono
-- `FIRMA_DOMYSLNE` — dodane `forma:''`, `krs:''`; dane domyślne = realna JDG użytkownika
-  (Home Experts Mariusz Zimnowodzki Nieruchomości, NIP 5782809711, REGON 368332760, Dmowskiego 12/201, stanowisko „właściciel firmy")
+- `FIRMA_DOMYSLNE` — dodane `forma:''`, `krs:''`; **wszystkie dane domyślne PUSTE** (nieuzupełnione —
+  każdy użytkownik wpisuje swoje); zostaje tylko `rok` (auto, do numeracji). `buildFirmaPochodne` ma
+  fallbacky `skrot||'HEX'`, `rok||bieżący`, więc numeracja działa nawet przy pustych polach
+- select „Stanowisko reprezentanta" — dodana neutralna pierwsza opcja „— wybierz —" (pusty start renderuje się czysto)
 - 4 tablice `fields` (initFirmaPanel / loadSelectedProfile / applyFirmaSettings / resetFirmaToDefault) + `forma`,`krs`
 - `index.html` — panel `#firma-settings-panel`: selektor formy + rozdzielenie REGON/KRS
-
-### Naprawiono
-- „Stanowisko reprezentanta" nie jest już puste (domyślne dopasowane do opcji selecta)
 
 ### Zweryfikowano (preview)
 - Forma neutralna na start; KRS chowane/pokazywane wg formy (`display none/flex`); `ceidg` poprawne dla JDG i spółki; brak błędów w konsoli
