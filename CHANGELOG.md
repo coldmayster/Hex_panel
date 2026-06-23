@@ -209,6 +209,23 @@ Format: `[DATA] Sesja N — opis`
 
 ---
 
+## [2026-06-20] Sesja 5e — strona startowa + avatar pill (Claude Code)
+
+### Dodano
+- **Zakładka 🏠 Start** — domyślna przy wejściu; 4 kafle narzędzi (Sprzedaż, Najem, Aneks, Protokół)
+  klikalne → `HEX.switchTab()`; sekcja „Ostatnio używane" (localStorage `hex_recent`, max 5, renderowana
+  przez `startRenderRecent()`) — wygląd 1:1 z v3
+- **Avatar pill** na granatowej belce (prawa strona): `#hex-agent-pill` z inicjałami (`hex-agent-av`) +
+  imię (`hex-agent-name`) z `firma.wlasciciel`; klik otwiera panel firmy. Obok: dzień + data (`hex-day-label`/`hex-date-label`)
+- `core.js`: `startTabInit()` (data, avatar, recent); `startAddRecent(type,name,tab)`;
+  `startRenderRecent()`; domyślna zakładka = `switchTab('start')`; Boot wywołuje `startTabInit()`
+
+### Zmieniono
+- `index.html`: dodana zakładka `data-tab="start"` (pierwsza), panel `#tab-start`, avatar pill + data
+  w `.hex-header-actions`, `flex:1` spacer między logo a prawą stroną headera
+
+---
+
 ## Wzorzec wpisu (kopiuj na start każdej sesji)
 
 ```

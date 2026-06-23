@@ -11,6 +11,12 @@
 - **Logo na belce** — `core.js HEX.init()` ustawia `#hex-logo.src = LOGO_PDF_B64`.
 - **Ustawienia firmy globalnie** — panel + 8 funkcji przeniesione ze `sprzedaz.js` do `core.js` + headera `index.html`. Dostępne ze wszystkich zakładek. Funkcje języka umowy zostają w `sprzedaz.js`.
 
+## 🏠 Sesja 5e (2026-06-20)
+- **Strona startowa (START)** — zakładka 🏠 Start jako domyślna; 4 kafle narzędzi + sekcja „Ostatnio używane" (localStorage). Wygląd jak v3.
+- **Avatar pill + data na belce** — inicjały + imię agenta (z danych firmy, pole `wlasciciel`) + dzień/data po prawej stronie headera.
+- **Domyślne dane puste** — avatar pill pusty do czasu konfiguracji firmy (poprawne zachowanie).
+- Funkcje `startTabInit`, `startAddRecent`, `startRenderRecent` dodane do `core.js`.
+
 ## 🏢 Sesja 5d (2026-06-12)
 - **Panel firmy: dowolny podmiot** — selektor „Forma prawna" (JDG/Spółka, domyślnie neutralny), osobne pola REGON i KRS (KRS tylko dla spółki). `FIRMA.ceidg` w `core.js` dobiera klauzulę: spółka → KRS, JDG → CEIDG.
 - **Domyślne dane firmy = PUSTE** (nieuzupełnione — każdy wpisuje swoje); zostaje tylko `rok` (auto). Select „Stanowisko" ma neutralną opcję „— wybierz —".
