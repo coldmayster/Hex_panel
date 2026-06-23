@@ -184,9 +184,8 @@ const HEX = (() => {
         switchTab(tab.dataset.tab);
       });
     });
-    // Domyślna zakładka
-    const first = document.querySelector('.hex-tab[data-tab]:not(.hex-tab-placeholder)');
-    if (first) switchTab(first.dataset.tab);
+    // Domyślna zakładka = start
+    switchTab('start');
   }
 
   // Public API
@@ -334,5 +333,75 @@ function resetFirmaToDefault() {
   });
 }
 
+// ═══ Zakładka START — data, avatar, ostatnio używane ═══
+function startTabInit() {
+  const d = new Date();
+  const dni = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
+  const mies = ['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','września','października','listopada','grudnia'];
+  const dateStr = d.getDate() + ' ' + mies[d.getMonth()] + ' ' + d.getFullYear();
+  const dayEl = document.getElementById('hex-day-label');
+  const dtEl  = document.getElementById('hex-date-label');
+  if (dayEl) dayEl.textContent = dni[d.getDay()];
+  if (dtEl)  dtEl.textContent  = dateStr;
+  const dateEl = document.getElementById('start-date-label');
+  if (dateEl) dateEl.textContent = dni[d.getDay()] + ', ' + dateStr;
+  const firma = HEX.loadFirmaData();
+  if (firma && firma.wlasciciel) {
+    const agentEl = document.getElementById('hex-agent-name');
+    const avEl    = document.getElementById('hex-agent-av');
+    if (agentEl) agentEl.textContent = firma.wlasciciel;
+    if (avEl) {
+      const parts = firma.wlasciciel.trim().split(/\s+/);
+      avEl.textContent = (parts[0]?.[0] || '') + (parts[1]?.[0] || '');
+    }
+  }
+  startRenderRecent();
+}
+
+function startAddRecent(type, name, tab) {
+  try {
+    let recent = JSON.parse(localStorage.getItem('hex_recent') || '[]');
+    recent = recent.filter(r => r.name !== name);
+    recent.unshift({ type, name, tab, time: new Date().toISOString() });
+    recent = recent.slice(0, 5);
+    localStorage.setItem('hex_recent', JSON.stringify(recent));
+  } catch(e) {}
+}
+
+function startRenderRecent() {
+  const el = document.getElementById('start-recent-list');
+  if (!el) return;
+  try {
+    const recent = JSON.parse(localStorage.getItem('hex_recent') || '[]');
+    if (!recent.length) {
+      el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--gray);font-size:12px;">Dokumenty z historii pojawią się tutaj po pierwszym wygenerowaniu PDF.</div>';
+      return;
+    }
+    const COLORS = { sprzedaz:'var(--navy)', najem:'#2e7d52', aneksy:'var(--gold)', inne:'#2e7d52' };
+    const ICONS  = { sprzedaz:'📄', najem:'🏠', aneksy:'📎', inne:'📋' };
+    el.innerHTML = recent.map(function(r) {
+      const dt = new Date(r.time);
+      const now = new Date();
+      const diff = Math.floor((now - dt) / 60000);
+      const timeStr = diff < 60 ? 'przed ' + diff + ' min'
+        : diff < 1440 ? 'Dzisiaj, ' + dt.getHours().toString().padStart(2,'0') + ':' + dt.getMinutes().toString().padStart(2,'0')
+        : 'Wczoraj';
+      const color = COLORS[r.tab] || 'var(--gray)';
+      const icon  = ICONS[r.tab]  || '';
+      return '<div style="display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:8px;">'
+        + '<div style="width:8px;height:8px;border-radius:50%;background:' + color + ';flex-shrink:0;"></div>'
+        + '<div style="flex:1;min-width:0;">'
+        + '<div style="font-size:12.5px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + icon + ' ' + r.name + '</div>'
+        + '<div style="font-size:10px;color:var(--gray);margin-top:1px;">' + r.type + '</div>'
+        + '</div>'
+        + '<div style="font-size:10px;color:var(--gray);flex-shrink:0;">' + timeStr + '</div>'
+        + '<div onclick="HEX.switchTab(\'' + r.tab + '\')" style="font-size:10.5px;font-weight:600;color:var(--gold);cursor:pointer;margin-left:6px;flex-shrink:0;">→ Otwórz</div>'
+        + '</div>';
+    }).join('');
+  } catch(e) {
+    el.innerHTML = '';
+  }
+}
+
 // Boot
-document.addEventListener('DOMContentLoaded', () => { HEX.init(); initFirmaPanel(); });
+document.addEventListener('DOMContentLoaded', () => { HEX.init(); initFirmaPanel(); startTabInit(); });

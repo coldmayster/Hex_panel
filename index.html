@@ -36,6 +36,7 @@
   <div class="hex-header-top">
     <!-- Logo ładowane przez js/logo.js lub inline base64 -->
     <img id="hex-logo" class="hex-logo" src="" alt="Home Experts" onerror="this.style.display='none'">
+    <div style="flex:1;"></div>
     <div class="hex-header-actions">
       <button id="firma-panel-toggle-btn" onclick="toggleFirmaPanel()"
         style="background:transparent; border:1.5px solid rgba(255,255,255,0.45); border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; color:#fff; cursor:pointer; transition:background 0.2s;"
@@ -43,13 +44,28 @@
         onmouseout="this.style.background='transparent'">
         ⚙️ Ustawienia firmy
       </button>
+      <div id="hex-agent-pill" onclick="toggleFirmaPanel()"
+        style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:100px;padding:4px 12px 4px 6px;cursor:pointer;transition:background 0.15s;"
+        title="Otwórz ustawienia firmy"
+        onmouseover="this.style.background='rgba(255,255,255,0.16)'"
+        onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+        <div id="hex-agent-av" style="width:22px;height:22px;border-radius:50%;background:#b8922a;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#1a2b5e;"></div>
+        <span id="hex-agent-name" style="font-size:11px;color:rgba(255,255,255,0.65);"></span>
+      </div>
+      <div style="text-align:right;margin-left:8px;">
+        <div id="hex-day-label" style="font-size:10px;color:rgba(255,255,255,0.4);"></div>
+        <div id="hex-date-label" style="font-size:9px;color:rgba(255,255,255,0.22);"></div>
+      </div>
     </div>
   </div>
 
   <!-- ZAKŁADKI -->
   <div class="hex-tabs">
+    <button class="hex-tab" data-tab="start">
+      🏠 Start
+    </button>
     <button class="hex-tab" data-tab="sprzedaz">
-      🏠 Sprzedaż
+      📄 Sprzedaż
     </button>
     <button class="hex-tab" data-tab="kupno">
       🔑 Kupno
@@ -205,6 +221,62 @@
      Każdy moduł dostarcza swój panel przez osobny plik HTML
      wstrzykiwany tutaj lub jako self-contained section
      ════════════════════════════════════════════════ -->
+
+<!-- START -->
+<div class="hex-panel" id="tab-start">
+  <div class="container">
+    <div style="margin-bottom:28px;">
+      <div id="start-date-label" style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;"></div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:4px;">Co dziś przygotowujemy?</div>
+      <div style="font-size:13px;color:var(--gray);">Wybierz narzędzie lub wróć do ostatnio używanego dokumentu.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;">
+      <div onclick="HEX.switchTab('sprzedaz')" style="position:relative;background:var(--white);border-radius:var(--radius);border:2px solid var(--border);padding:22px 20px;cursor:pointer;transition:all .2s;"
+           onmouseover="this.style.borderColor='var(--gold)';this.style.boxShadow='0 6px 20px rgba(184,146,42,0.12)'"
+           onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+        <div style="font-size:28px;margin-bottom:10px;">📄</div>
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:5px;">Generator umów sprzedaż</div>
+        <div style="font-size:11.5px;color:var(--gray);line-height:1.45;">Ekskluzywne, otwarte i kupno. Opcja dwujęzyczna PL/EN.</div>
+      </div>
+
+      <div onclick="HEX.switchTab('najem')" style="position:relative;background:var(--white);border-radius:var(--radius);border:2px solid var(--border);padding:22px 20px;cursor:pointer;transition:all .2s;"
+           onmouseover="this.style.borderColor='var(--gold)';this.style.boxShadow='0 6px 20px rgba(184,146,42,0.12)'"
+           onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+        <div style="font-size:28px;margin-bottom:10px;">🏠</div>
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:5px;">Generator umów najem</div>
+        <div style="font-size:11.5px;color:var(--gray);line-height:1.45;">Pośrednictwo dla najemcy lub wynajmującego. PDF z załącznikami.</div>
+      </div>
+
+      <div onclick="HEX.switchTab('aneksy')" style="position:relative;background:var(--white);border-radius:var(--radius);border:2px solid var(--border);padding:22px 20px;cursor:pointer;transition:all .2s;"
+           onmouseover="this.style.borderColor='var(--gold)';this.style.boxShadow='0 6px 20px rgba(184,146,42,0.12)'"
+           onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+        <div style="font-size:28px;margin-bottom:10px;">📎</div>
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:5px;">Aneks do umowy pośrednictwa</div>
+        <div style="font-size:11.5px;color:var(--gray);line-height:1.45;">Zmiana prowizji, formy płatności, czasu trwania lub rodzaju umowy.</div>
+      </div>
+
+      <div onclick="HEX.switchTab('inne')" style="position:relative;background:var(--white);border-radius:var(--radius);border:2px solid var(--border);padding:22px 20px;cursor:pointer;transition:all .2s;"
+           onmouseover="this.style.borderColor='var(--gold)';this.style.boxShadow='0 6px 20px rgba(184,146,42,0.12)'"
+           onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+        <div style="font-size:28px;margin-bottom:10px;">📋</div>
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:5px;">Protokół prezentacji</div>
+        <div style="font-size:11.5px;color:var(--gray);line-height:1.45;">Rejestruj oglądane nieruchomości z podpisami klienta i agenta.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <div style="font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);">Ostatnio używane</div>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+    </div>
+    <div id="start-recent-list">
+      <div style="text-align:center;padding:20px;color:var(--gray);font-size:12px;">
+        Dokumenty z historii pojawią się tutaj po pierwszym wygenerowaniu PDF.
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- SPRZEDAŻ -->
 <div class="hex-panel" id="tab-sprzedaz">
